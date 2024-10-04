@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "nasa-apis-wrapper"
+version = "0.1.0"
+description = "Python wrapper for NASA APIs"
+authors = ["Jonathan Rodríguez <jonathanroddev@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pydantic = "^2.9"
+requests = "^2.32"
+
+[tool.poetry.scripts]
+local = "nasa_apis_wrapper.local:start"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
