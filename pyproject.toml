@@ -10,9 +10,6 @@ python = "^3.12"
 pydantic = "^2.9"
 requests = "^2.32"
 
-[tool.poetry.scripts]
-local = "nasa_apis_wrapper.local:start"
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
