@@ -1,5 +1,6 @@
 from requests import Session
 
+
 class BaseAPI:
     def __init__(self, api_key: str):
         self.host: str = "https://api.nasa.gov"
@@ -13,4 +14,9 @@ class BaseAPI:
     def get_request(self, endpoint: str):
         url: str = f"{self.host}{endpoint}"
         req = self.session.get(url)
+        return req
+
+    def post_request(self, endpoint: str, json_data: dict):
+        url: str = f"{self.host}{endpoint}"
+        req = self.session.post(url, json=json_data)
         return req

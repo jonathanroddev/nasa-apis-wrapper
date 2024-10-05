@@ -1,8 +1,9 @@
-from pydantic import BaseModel
-from typing import Optional
 import datetime
+from typing import Optional
+from pydantic import BaseModel
 
-class APOD (BaseModel):
+
+class APOD(BaseModel):
     copyright: Optional[str] = None
     date: datetime.date
     explanation: str

@@ -1,2 +1,2 @@
 from .models import APOD
-from .apodservice import APODService
+from .service import APODService

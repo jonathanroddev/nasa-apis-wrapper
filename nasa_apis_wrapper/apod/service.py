@@ -1,6 +1,7 @@
 import json
-from nasa_apis_wrapper.base import BaseAPI
+from nasa_apis_wrapper import BaseAPI
 from .models import APOD
+
 
 class APODService(BaseAPI):
 
