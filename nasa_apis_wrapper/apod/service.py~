@@ -35,6 +35,7 @@ class APODService(BaseAPI):
             This method sends a GET request to the NASA APOD API to retrieve the APOD data.
         """
         endpoint: str = "/planetary/apod"
+        print(Utils.obj_dict(apod_request))
         req = self.get_request(endpoint, params=Utils.obj_dict(apod_request))
         response: dict = json.loads(req.text)
         return APOD(**response)

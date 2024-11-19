@@ -12,6 +12,6 @@ Notes:
     This file is automatically executed when the module is imported.
 """
 
-from .apod import APOD
-from .apod.service import APODService
+from .apod import APOD, APODService, APODRequest
 from .base import BaseAPI
+from .utils import Utils

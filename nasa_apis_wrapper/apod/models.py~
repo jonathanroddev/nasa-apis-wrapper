@@ -40,15 +40,11 @@ class APODRequest(BaseModel):
     Initializes a request object for Astronomy Picture of the Day (APOD) data.
 
     Args:
-        date (Optional[datetime.date]): The date of the APOD image to retrieve. If not provided, the current date is
-            used.
-        start_date (Optional[datetime.date]): The start of a date range, when requesting date for a range of dates.
-            Cannot be used with date.
+        date (Optional[datetime.date]): The date of the APOD image to retrieve. If not provided, the current date is used.
+        start_date (Optional[datetime.date]): The start of a date range, when requesting date for a range of dates. Cannot be used with date.
         end_date (Optional[datetime.date]): The end of the date range, when used with start_date.
-        count (Optional[int]): If this is specified then count randomly chosen images will be returned. Cannot be used
-            with date or start_date and end_date.
-        thumbs (Optional[bool]): Return the URL of video thumbnail. If an APOD is not a video, this parameter is
-            ignored.
+        count (Optional[int]): If this is specified then count randomly chosen images will be returned. Cannot be used with date or start_date and end_date.
+        thumbs (Optional[bool]): Return the URL of video thumbnail. If an APOD is not a video, this parameter is ignored.
     """
     date: Optional[datetime.date] = None
     start_date: Optional[datetime.date] = None

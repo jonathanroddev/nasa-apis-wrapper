@@ -48,7 +48,6 @@ class BaseAPI:
 
         Args:
             endpoint (str): The endpoint for the API request.
-            params (Optional[dict]): Additional query parameters for the request.
 
         Returns:
             Response: The response from the API request.
