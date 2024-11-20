@@ -1,12 +1,9 @@
 """
 Module for Astronomy Picture of the Day (APOD) data models.
 
-This module contains the APOD class, which represents an Astronomy Picture of the Day object.
-It provides attributes for the APOD's copyright information, date, explanation, high-definition URL,
-media type, and URL.
-
 Classes:
     APOD: Represents an Astronomy Picture of the Day object.
+    APODRequest: Represents a request object for Astronomy Picture of the Day (APOD) data.
 """
 
 import datetime

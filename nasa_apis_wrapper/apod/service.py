@@ -11,8 +11,7 @@ import json
 from typing import Optional
 
 from nasa_apis_wrapper.base import BaseAPI
-from . import APODRequest
-from .models import APOD
+from .models import APOD, APODRequest
 from ..utils import Utils
 
 
@@ -35,6 +34,6 @@ class APODService(BaseAPI):
             This method sends a GET request to the NASA APOD API to retrieve the APOD data.
         """
         endpoint: str = "/planetary/apod"
-        req = self.get_request(endpoint, params=Utils.obj_dict(apod_request))
+        req = self.get_request(endpoint, params=Utils.obj_dict(apod_request) if apod_request else None)
         response: dict = json.loads(req.text)
         return APOD(**response)

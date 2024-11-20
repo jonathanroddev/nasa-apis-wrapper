@@ -1,0 +1,109 @@
+"""
+Module for AAsteroids - NeoWs data models.
+
+Classes:
+    NeoFeed: Represents a list of Asteroids based on their closest approach date to Earth.
+    NeoFeedRequest: Represents a request object for NeoFeed endpoint.
+"""
+
+import datetime
+from datetime import datetime as dt
+from typing import Optional, Dict, List
+
+from pydantic import BaseModel, model_validator, ConfigDict
+
+
+class Links(BaseModel):
+    # TODO: Add docstring
+    next: Optional[str] = None
+    previous: Optional[str] = None
+    self: Optional[str] = None
+
+
+valid_diameters_unit: List[str] = ["kilometers", "meters", "miles", "feet"]
+
+
+class EstimatedDiameter(BaseModel):
+
+    @model_validator(mode="before")
+    def validate_keys(cls, values: Dict[str, Dict]):
+        validated = {}
+        print(values)
+        for key, value in values.items():
+            if key not in valid_diameters_unit:
+                raise ValueError(f"The key '{key}' is not a valid unit")
+            validated[key] = value
+        return validated
+
+
+class RelativeVelocity(BaseModel):
+    kilometers_per_second: str
+    kilometers_per_hour: str
+    miles_per_hour: str
+
+
+class MissDistance(BaseModel):
+    astronomical: str
+    lunar: str
+    kilometers: str
+    miles: str
+
+
+class CloseApproachItem(BaseModel):
+    close_approach_date: str
+    close_approach_date_full: str
+    epoch_date_close_approach: int
+    orbiting_body: str
+    relative_velocity: RelativeVelocity
+    miss_distance: MissDistance
+
+
+class NearEarthObjectsFeedItem(BaseModel):
+    links: Links
+    id: str
+    neo_reference_id: str
+    name: str
+    nasa_jpl_url: str
+    absolute_magnitude_h: float
+    is_potentially_hazardous_asteroid: bool
+    is_sentry_object: bool
+    close_approach_data: List[CloseApproachItem]
+    estimated_diameter: EstimatedDiameter
+
+
+class NearEarthObjectsFeed(BaseModel):
+    # TODO: Add docstring
+    model_config = ConfigDict(extra="allow")
+
+    @model_validator(mode="before")
+    def validate_keys(cls, values: Dict[str, List[NearEarthObjectsFeedItem]]):
+        validated = {}
+        for key, value in values.items():
+            try:
+                dt.strptime(key, "%Y-%m-%d")
+            except ValueError:
+                raise ValueError(f"The key '{key}' has not the format 'YYYY-MM-DD'")
+            validated[key] = value
+        return validated
+
+
+class NeoFeed(BaseModel):
+    # TODO: Finish docstring
+    """
+   Represents a list of Asteroids based on their closest approach date to Earth.
+    """
+    links: Links
+    element_count: int
+    near_earth_objects: NearEarthObjectsFeed
+
+
+class NeoFeedRequest(BaseModel):
+    """
+    Initializes a request object for NeoFeed endpoint.
+
+    Args:
+        start_date (Optional[datetime.date]): Starting date for asteroid search.
+        end_date (Optional[datetime.date]): Ending date for asteroid search.
+    """
+    start_date: Optional[datetime.date] = None
+    end_date: Optional[datetime.date] = None

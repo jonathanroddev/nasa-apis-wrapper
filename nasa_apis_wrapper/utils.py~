@@ -25,7 +25,8 @@ class Utils:
         Returns:
             A dictionary representation of the object.
         """
-        print(obj)
         if isinstance(obj, datetime.date):
             return obj.strftime("%Y/%m/%d")
+        for key, value in dict(obj.__dict__).items():
+            print(key)
         return obj.__dict__

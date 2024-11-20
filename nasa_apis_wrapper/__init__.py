@@ -12,6 +12,7 @@ Notes:
     This file is automatically executed when the module is imported.
 """
 
-from .apod import APOD, APODService, APODRequest
+from .apod import APODService, APOD, APODRequest
+from .asteroids_neows import NeoFeed, NeoFeedRequest, NeoWsService
 from .base import BaseAPI
 from .utils import Utils
