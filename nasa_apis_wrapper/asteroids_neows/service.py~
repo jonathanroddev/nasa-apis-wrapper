@@ -1,7 +1,8 @@
 """
 Module for Asteroids - NeoWs service.
 
-This module contains the NeoWsService class, which provides methods for retrieving Near Earth Object Web Service data.
+This module contains the NeoWsService class, which provides
+    methods for retrieving Near Earth Object Web Service data.
 
 Classes:
     NeoWsService: Provides methods for retrieving Near Earth Object Web Service data.
@@ -16,11 +17,34 @@ from ..utils import Utils
 
 
 class NeoWsService(BaseAPI):
-    # TODO: Add docstring
+    """
+    Provides methods for retrieving Near Earth Object Web Service data.
+
+    Methods:
+        feed(neo_feed_request: Optional[NeoFeedRequest] = None): Retrieves the feed of near-Earth objects.
+
+    Notes:
+        This class provides a basic implementation for interacting with
+            the Near Earth Object Web Service API.
+    """
 
     def feed(self, neo_feed_request: Optional[NeoFeedRequest] = None) -> NeoFeed:
-        # TODO: Add docstring
+        """
+        Retrieves the feed of near-Earth objects.
+
+        Args:
+            neo_feed_request (Optional[NeoFeedRequest]): The request object for the feed.
+                If not provided, the default request is used.
+
+        Returns:
+            NeoFeed: The feed of near-Earth objects.
+
+        Notes:
+            This method sends a GET request to the Near Earth Object Web Service API
+                to retrieve the feed of near-Earth objects.
+            The feed is filtered by the closest approach date to Earth.
+        """
         endpoint: str = "/neo/rest/v1/feed"
-        req = self.get_request(endpoint, params=Utils.obj_dict(neo_feed_request))
+        req = self.get_request(endpoint, params=Utils.obj_dict(neo_feed_request) if neo_feed_request else None)
         response: dict = json.loads(req.text)
         return NeoFeed(**response)

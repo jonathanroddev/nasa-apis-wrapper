@@ -14,7 +14,14 @@ from pydantic import BaseModel, model_validator, ConfigDict
 
 
 class Links(BaseModel):
-    # TODO: Add docstring
+    """
+    Represents a set of links for a given resource.
+
+    Attributes:
+        next (Optional[str]): The URL of the next page of results.
+        previous (Optional[str]): The URL of the previous page of results.
+        self (Optional[str]): The URL of the current page of results.
+    """
     next: Optional[str] = None
     previous: Optional[str] = None
     self: Optional[str] = None
@@ -24,11 +31,31 @@ valid_diameters_unit: List[str] = ["kilometers", "meters", "miles", "feet"]
 
 
 class EstimatedDiameter(BaseModel):
+    """
+    Represents the estimated diameter of an asteroid.
+
+    Attributes:
+        kilometers (Dict[str, float]): The estimated diameter in kilometers, with different units.
+        meters (Dict[str, float]): The estimated diameter in meters, with different units.
+        miles (Dict[str, float]): The estimated diameter in miles, with different units.
+        feet (Dict[str, float]): The estimated diameter in feet, with different units.
+    """
 
     @model_validator(mode="before")
     def validate_keys(cls, values: Dict[str, Dict]):
+        """
+        Validates the keys in the estimated diameter dictionary.
+
+        Args:
+            values (Dict[str, Dict]): The estimated diameter dictionary.
+
+        Raises:
+            ValueError: If a key is not a valid unit.
+
+        Returns:
+            Dict[str, Dict]: The validated estimated diameter dictionary.
+        """
         validated = {}
-        print(values)
         for key, value in values.items():
             if key not in valid_diameters_unit:
                 raise ValueError(f"The key '{key}' is not a valid unit")
@@ -37,12 +64,29 @@ class EstimatedDiameter(BaseModel):
 
 
 class RelativeVelocity(BaseModel):
+    """
+    Represents the relative velocity of an asteroid.
+
+    Attributes:
+        kilometers_per_second (str): The relative velocity in kilometers per second.
+        kilometers_per_hour (str): The relative velocity in kilometers per hour.
+        miles_per_hour (str): The relative velocity in miles per hour.
+    """
     kilometers_per_second: str
     kilometers_per_hour: str
     miles_per_hour: str
 
 
 class MissDistance(BaseModel):
+    """
+    Represents the miss distance of an asteroid.
+
+    Attributes:
+        astronomical (str): The miss distance in astronomical units.
+        lunar (str): The miss distance in lunar distances.
+        kilometers (str): The miss distance in kilometers.
+        miles (str): The miss distance in miles.
+    """
     astronomical: str
     lunar: str
     kilometers: str
@@ -50,6 +94,17 @@ class MissDistance(BaseModel):
 
 
 class CloseApproachItem(BaseModel):
+    """
+    Represents a close approach of an asteroid to Earth.
+
+    Attributes:
+        close_approach_date (str): The date of the close approach.
+        close_approach_date_full (str): The full date of the close approach.
+        epoch_date_close_approach (int): The epoch date of the close approach.
+        orbiting_body (str): The body being orbited (e.g. Earth).
+        relative_velocity (RelativeVelocity): The relative velocity of the asteroid.
+        miss_distance (MissDistance): The miss distance of the asteroid.
+    """
     close_approach_date: str
     close_approach_date_full: str
     epoch_date_close_approach: int
@@ -59,6 +114,24 @@ class CloseApproachItem(BaseModel):
 
 
 class NearEarthObjectsFeedItem(BaseModel):
+    """
+    Represents a near-Earth object feed item.
+
+    Attributes:
+        links (Links): The links for the near-Earth object.
+        id (str): The ID of the near-Earth object.
+        neo_reference_id (str): The NEO reference ID.
+        name (str): The name of the near-Earth object.
+        nasa_jpl_url (str): The NASA JPL URL for the near-Earth object.
+        absolute_magnitude_h (float): The absolute magnitude of the near-Earth object.
+        is_potentially_hazardous_asteroid (bool):
+            Whether the near-Earth object is potentially hazardous.
+        is_sentry_object (bool): Whether the near-Earth object is a sentry object.
+        close_approach_data (List[CloseApproachItem]):
+            The close approach data for the near-Earth object.
+        estimated_diameter (EstimatedDiameter):
+            The estimated diameter of the near-Earth object.
+    """
     links: Links
     id: str
     neo_reference_id: str
@@ -72,11 +145,37 @@ class NearEarthObjectsFeedItem(BaseModel):
 
 
 class NearEarthObjectsFeed(BaseModel):
-    # TODO: Add docstring
+    """
+    Represents a near-Earth objects feed.
+
+    Attributes:
+        model_config (ConfigDict): The model configuration.
+
+    Methods:
+        validate_keys(cls, values: Dict[str, List[NearEarthObjectsFeedItem]]):
+            Validates the keys in the feed.
+
+    Notes:
+        This class represents a feed of near-Earth objects,
+            where each object is a NearEarthObjectsFeedItem.
+    """
     model_config = ConfigDict(extra="allow")
 
     @model_validator(mode="before")
     def validate_keys(cls, values: Dict[str, List[NearEarthObjectsFeedItem]]):
+        """
+        Validates the keys in the feed.
+
+        Args:
+            values (Dict[str, List[NearEarthObjectsFeedItem]]): The feed values.
+
+        Raises:
+            ValueError: If a key is not a valid date.
+
+        Returns:
+            Dict[str, List[NearEarthObjectsFeedItem]]: The validated feed values.
+                The key must be a valid string in the format 'YYYY-MM-DD'.
+        """
         validated = {}
         for key, value in values.items():
             try:
@@ -88,9 +187,18 @@ class NearEarthObjectsFeed(BaseModel):
 
 
 class NeoFeed(BaseModel):
-    # TODO: Finish docstring
     """
-   Represents a list of Asteroids based on their closest approach date to Earth.
+    Represents a list of asteroids based on their closest approach date to Earth.
+
+    Attributes:
+        links (Links): The links for the feed.
+        element_count (int): The number of elements in the feed.
+        near_earth_objects (NearEarthObjectsFeed): The near-Earth objects feed.
+
+    Notes:
+        This class represents a feed of asteroids,
+            where each asteroid is a NearEarthObjectsFeedItem.
+        The feed is filtered by the closest approach date to Earth.
     """
     links: Links
     element_count: int

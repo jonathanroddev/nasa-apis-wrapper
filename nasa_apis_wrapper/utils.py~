@@ -1,7 +1,8 @@
 """
 Module for utility functions.
 
-This module contains a collection of utility functions that can be used throughout the NASA APIs wrapper.
+This module contains a collection of utility functions
+    that can be used throughout the NASA APIs wrapper.
 """
 import datetime
 from typing import Any
@@ -27,6 +28,4 @@ class Utils:
         """
         if isinstance(obj, datetime.date):
             return obj.strftime("%Y/%m/%d")
-        for key, value in dict(obj.__dict__).items():
-            print(key)
         return obj.__dict__

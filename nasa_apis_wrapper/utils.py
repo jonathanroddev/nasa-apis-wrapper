@@ -1,7 +1,8 @@
 """
 Module for utility functions.
 
-This module contains a collection of utility functions that can be used throughout the NASA APIs wrapper.
+This module contains a collection of utility functions
+    that can be used throughout the NASA APIs wrapper.
 """
 import datetime
 from typing import Any
@@ -11,7 +12,8 @@ class Utils:
     """
     A class providing utility functions.
 
-    This class contains a collection of utility functions that can be used throughout the NASA APIs wrapper.
+    This class contains a collection of utility functions
+        that can be used throughout the NASA APIs wrapper.
     """
 
     @staticmethod

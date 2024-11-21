@@ -1,15 +1,31 @@
 """
-Module for Base API functionality.
-
-This module contains the BaseAPI class, which provides a
-basic implementation for interacting with NASA APIs.
+Provides the base API class for interacting with NASA APIs.
 
 Classes:
     BaseAPI: Provides a basic implementation for interacting with NASA APIs.
+    NasaAPIException: Represents an exception that occurs when interacting with NASA APIs.
+
+Notes:
+    This module provides the base API class for interacting with NASA APIs.
+    It contains the `BaseAPI` and `NasaAPIException` classes,
+        which are used as a foundation for the other packages in the `nasa_apis_wrapper` package.
 """
 from typing import Optional
 
 from requests import Session
+
+
+class NasaAPIException(Exception):
+    """
+    Represents an exception that occurs when interacting with NASA APIs.
+
+    Attributes:
+        message (str): The error message.
+    """
+
+    def __init__(self, message: str):
+        self.message = message
+        super().__init__(message)
 
 
 class BaseAPI:
@@ -43,6 +59,7 @@ class BaseAPI:
         self.session.params = {"api_key": api_key}
 
     def get_request(self, endpoint: str, params: Optional[dict] = None):
+        # TODO: Finish docstring
         """
         Sends a GET request to the NASA API.
 
@@ -59,9 +76,12 @@ class BaseAPI:
         """
         url: str = f"{self.host}{endpoint}"
         req = self.session.get(url, params=params)
+        if req.status_code not in list(range(200, 300)):
+            raise NasaAPIException(req.text)
         return req
 
     def post_request(self, endpoint: str, json_data: dict):
+        # TODO: Finish docstring
         """
         Sends a POST request to the NASA API.
 
@@ -78,4 +98,6 @@ class BaseAPI:
         """
         url: str = f"{self.host}{endpoint}"
         req = self.session.post(url, json=json_data)
+        if req.status_code not in list(range(200, 300)):
+            raise NasaAPIException(req.text)
         return req
