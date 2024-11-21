@@ -59,7 +59,6 @@ class BaseAPI:
         self.session.params = {"api_key": api_key}
 
     def get_request(self, endpoint: str, params: Optional[dict] = None):
-        # TODO: Finish docstring
         """
         Sends a GET request to the NASA API.
 
@@ -81,7 +80,6 @@ class BaseAPI:
         return req
 
     def post_request(self, endpoint: str, json_data: dict):
-        # TODO: Finish docstring
         """
         Sends a POST request to the NASA API.
 

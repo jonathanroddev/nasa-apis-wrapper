@@ -113,7 +113,7 @@ class CloseApproachItem(BaseModel):
     miss_distance: MissDistance
 
 
-class NearEarthObjectsFeedItem(BaseModel):
+class NearEarthObjectItem(BaseModel):
     """
     Represents a near-Earth object feed item.
 
@@ -124,10 +124,13 @@ class NearEarthObjectsFeedItem(BaseModel):
         name (str): The name of the near-Earth object.
         nasa_jpl_url (str): The NASA JPL URL for the near-Earth object.
         absolute_magnitude_h (float): The absolute magnitude of the near-Earth object.
-        is_potentially_hazardous_asteroid (bool): Whether the near-Earth object is potentially hazardous.
+        is_potentially_hazardous_asteroid (bool):
+            Whether the near-Earth object is potentially hazardous.
         is_sentry_object (bool): Whether the near-Earth object is a sentry object.
-        close_approach_data (List[CloseApproachItem]): The close approach data for the near-Earth object.
-        estimated_diameter (EstimatedDiameter): The estimated diameter of the near-Earth object.
+        close_approach_data (List[CloseApproachItem]):
+            The close approach data for the near-Earth object.
+        estimated_diameter (EstimatedDiameter):
+            The estimated diameter of the near-Earth object.
     """
     links: Links
     id: str
@@ -159,18 +162,18 @@ class NearEarthObjectsFeed(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     @model_validator(mode="before")
-    def validate_keys(cls, values: Dict[str, List[NearEarthObjectsFeedItem]]):
+    def validate_keys(cls, values: Dict[str, List[NearEarthObjectItem]]):
         """
         Validates the keys in the feed.
 
         Args:
-            values (Dict[str, List[NearEarthObjectsFeedItem]]): The feed values.
+            values (Dict[str, List[NearEarthObjectItem]]): The feed values.
 
         Raises:
             ValueError: If a key is not a valid date.
 
         Returns:
-            Dict[str, List[NearEarthObjectsFeedItem]]: The validated feed values.
+            Dict[str, List[NearEarthObjectItem]]: The validated feed values.
                 The key must be a valid string in the format 'YYYY-MM-DD'.
         """
         validated = {}

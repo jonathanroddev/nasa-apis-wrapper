@@ -113,7 +113,7 @@ class CloseApproachItem(BaseModel):
     miss_distance: MissDistance
 
 
-class NearEarthObjectsFeedItem(BaseModel):
+class NearEarthObjectItem(BaseModel):
     """
     Represents a near-Earth object feed item.
 
@@ -144,7 +144,7 @@ class NearEarthObjectsFeedItem(BaseModel):
     estimated_diameter: EstimatedDiameter
 
 
-class NearEarthObjectsFeed(BaseModel):
+class NearEarthObjects(BaseModel):
     """
     Represents a near-Earth objects feed.
 
@@ -152,28 +152,28 @@ class NearEarthObjectsFeed(BaseModel):
         model_config (ConfigDict): The model configuration.
 
     Methods:
-        validate_keys(cls, values: Dict[str, List[NearEarthObjectsFeedItem]]):
+        validate_keys(cls, values: Dict[str, List[NearEarthObjectItem]]):
             Validates the keys in the feed.
 
     Notes:
         This class represents a feed of near-Earth objects,
-            where each object is a NearEarthObjectsFeedItem.
+            where each object is a NearEarthObjectItem.
     """
     model_config = ConfigDict(extra="allow")
 
     @model_validator(mode="before")
-    def validate_keys(cls, values: Dict[str, List[NearEarthObjectsFeedItem]]):
+    def validate_keys(cls, values: Dict[str, List[NearEarthObjectItem]]):
         """
         Validates the keys in the feed.
 
         Args:
-            values (Dict[str, List[NearEarthObjectsFeedItem]]): The feed values.
+            values (Dict[str, List[NearEarthObjectItem]]): The feed values.
 
         Raises:
             ValueError: If a key is not a valid date.
 
         Returns:
-            Dict[str, List[NearEarthObjectsFeedItem]]: The validated feed values.
+            Dict[str, List[NearEarthObjectItem]]: The validated feed values.
                 The key must be a valid string in the format 'YYYY-MM-DD'.
         """
         validated = {}
@@ -193,16 +193,16 @@ class NeoFeed(BaseModel):
     Attributes:
         links (Links): The links for the feed.
         element_count (int): The number of elements in the feed.
-        near_earth_objects (NearEarthObjectsFeed): The near-Earth objects feed.
+        near_earth_objects (NearEarthObjects): The near-Earth objects feed.
 
     Notes:
         This class represents a feed of asteroids,
-            where each asteroid is a NearEarthObjectsFeedItem.
+            where each asteroid is a NearEarthObjectItem.
         The feed is filtered by the closest approach date to Earth.
     """
     links: Links
     element_count: int
-    near_earth_objects: NearEarthObjectsFeed
+    near_earth_objects: NearEarthObjects
 
 
 class NeoFeedRequest(BaseModel):
