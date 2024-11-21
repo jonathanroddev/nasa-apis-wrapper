@@ -1,0 +1,40 @@
+```python
+import datetime
+from typing import List, Dict
+
+from devtools import pprint
+
+from nasa_apis_wrapper import (
+    APODService,
+    APOD,
+    APODRequest,
+    NeoWsService,
+    NeoFeed,
+    NasaAPIException,
+    NearEarthObjectItem
+)
+
+api_key = "<YOUR_API_KEY>"
+
+apod_service: APODService = APODService(api_key)
+try:
+    # APOD
+    apod: APOD = apod_service.get_astronomy_picture_of_day(APODRequest(date=datetime.date(2022, 1, 1)))
+    pprint(apod)
+
+    # Asteroids NeoWs
+    neows_service: NeoWsService = NeoWsService(api_key)
+    # neo_feed: NeoFeed = neows_service.feed(NeoFeedRequest(start_date=datetime.date(202, 1, 1)))
+    neo_feed: NeoFeed = neows_service.feed()
+    pprint(neo_feed)
+
+    if neo_feed:
+        keys = neo_feed.near_earth_objects.model_dump().keys()
+        near_earth_objects_date_list_dict: List[Dict] = neo_feed.near_earth_objects.model_dump().get(next(iter(keys)))
+        neo_item_list: List[NearEarthObjectItem] = []
+        for item in near_earth_objects_date_list_dict:
+            neo_item_list.append(NearEarthObjectItem(**item))
+        neo_lookup: NearEarthObjectItem = neows_service.lookup(neo_item_list[0].id)
+        pprint(neo_lookup)
+except NasaAPIException as e:
+    print(e)
