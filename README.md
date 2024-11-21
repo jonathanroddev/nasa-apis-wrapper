@@ -1,3 +1,9 @@
+## Official documentation
+
+[NASA APIs](https://api.nasa.gov/)
+
+## Examples of usage
+
 ```python
 import datetime
 from typing import List, Dict
@@ -19,7 +25,7 @@ api_key = "<YOUR_API_KEY>"
 apod_service: APODService = APODService(api_key)
 try:
     # APOD
-    apod: APOD = apod_service.get_astronomy_picture_of_day(APODRequest(date=datetime.date(2022, 1, 1)))
+    apod: APOD = apod_service.get_astronomy_picture_of_day(APODRequest(date=datetime.date(2022, 3, 27)))
     pprint(apod)
 
     # Asteroids NeoWs
