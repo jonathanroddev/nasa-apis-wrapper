@@ -30,7 +30,7 @@ try:
 
     if neo_feed:
         keys = neo_feed.near_earth_objects.model_dump().keys()
-        near_earth_objects_date_list_dict: Dict = neo_feed.near_earth_objects.model_dump().get(next(iter(keys)))
+        near_earth_objects_date_list_dict: List[Dict] = neo_feed.near_earth_objects.model_dump().get(next(iter(keys)))
         neo_item_list: List[NearEarthObjectItem] = []
         for item in near_earth_objects_date_list_dict:
             neo_item_list.append(NearEarthObjectItem(**item))

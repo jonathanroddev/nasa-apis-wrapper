@@ -24,8 +24,8 @@ try:
 
     # Asteroids NeoWs
     neows_service: NeoWsService = NeoWsService(api_key)
-    neo_feed: NeoFeed = neows_service.feed()
     # neo_feed: NeoFeed = neows_service.feed(NeoFeedRequest(start_date=datetime.date(202, 1, 1)))
+    neo_feed: NeoFeed = neows_service.feed()
     pprint(neo_feed)
 
     if neo_feed:
