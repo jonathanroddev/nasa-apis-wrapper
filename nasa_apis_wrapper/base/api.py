@@ -77,7 +77,7 @@ class BaseAPI:
         req = self.session.get(url, params=params)
         if req.status_code not in list(range(200, 300)):
             raise NasaAPIException(req.text)
-        return req
+        return req.text
 
     def post_request(self, endpoint: str, json_data: dict):
         """
@@ -98,4 +98,4 @@ class BaseAPI:
         req = self.session.post(url, json=json_data)
         if req.status_code not in list(range(200, 300)):
             raise NasaAPIException(req.text)
-        return req
+        return req.text

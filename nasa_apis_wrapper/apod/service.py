@@ -35,5 +35,5 @@ class APODService(BaseAPI):
         """
         endpoint: str = "/planetary/apod"
         req = self.get_request(endpoint, params=Utils.obj_dict(apod_request) if apod_request else None)
-        response: dict = json.loads(req.text)
+        response: dict = json.loads(req)
         return APOD(**response)

@@ -51,3 +51,11 @@ try:
     pprint(neo_browse)
 except NasaAPIException as e:
     print(e)
+```
+
+## Helpful commands
+
+```console
+ poetry run pytest
+ poetry run pytest --cov
+```

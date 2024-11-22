@@ -53,7 +53,7 @@ class NeoWsService(BaseAPI):
         """
         endpoint: str = f"{self.endpoint_prefix}/feed"
         req = self.get_request(endpoint, params=Utils.obj_dict(neo_feed_request) if neo_feed_request else None)
-        response: dict = json.loads(req.text)
+        response: dict = json.loads(req)
         return NeoFeed(**response)
 
     def lookup(self, asteroid_id: Union[str, int]) -> NearEarthObjectItem:
@@ -75,7 +75,7 @@ class NeoWsService(BaseAPI):
         """
         endpoint: str = f"{self.endpoint_prefix}/neo/{asteroid_id}"
         req = self.get_request(endpoint)
-        response: dict = json.loads(req.text)
+        response: dict = json.loads(req)
         return NearEarthObjectItem(**response)
 
     def browse(self, pagination: Pagination = None) -> NeoBrowse:
@@ -96,5 +96,5 @@ class NeoWsService(BaseAPI):
         """
         endpoint: str = f"{self.endpoint_prefix}/neo/browse"
         req = self.get_request(endpoint, params=Utils.obj_dict(pagination) if pagination else None)
-        response: dict = json.loads(req.text)
+        response: dict = json.loads(req)
         return NeoBrowse(**response)
