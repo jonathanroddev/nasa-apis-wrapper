@@ -58,4 +58,5 @@ except NasaAPIException as e:
 ```console
  poetry run pytest
  poetry run pytest --cov
+ poetry run pytest --cov --cov-report term-missing
 ```

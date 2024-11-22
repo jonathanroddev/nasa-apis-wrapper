@@ -214,8 +214,8 @@ class NearEarthObjects(BaseModel):
         for key, value in values.items():
             try:
                 dt.strptime(key, "%Y-%m-%d")
-            except ValueError:
-                raise ValueError(f"The key '{key}' has not the format 'YYYY-MM-DD'")
+            except ValueError as ve:
+                raise ValueError(f"The key '{key}' has not the format 'YYYY-MM-DD'") from ve
             validated[key] = value
         return validated
 
