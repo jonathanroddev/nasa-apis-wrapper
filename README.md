@@ -17,12 +17,15 @@ from nasa_apis_wrapper import (
     NeoWsService,
     NeoFeed,
     NasaAPIException,
-    NearEarthObjectItem
+    NearEarthObjectItem,
+    NeoBrowse,
+    Pagination,
 )
 
 api_key = "<YOUR_API_KEY>"
 
 apod_service: APODService = APODService(api_key)
+
 try:
     # APOD
     apod: APOD = apod_service.get_astronomy_picture_of_day(APODRequest(date=datetime.date(2022, 3, 27)))
@@ -42,5 +45,9 @@ try:
             neo_item_list.append(NearEarthObjectItem(**item))
         neo_lookup: NearEarthObjectItem = neows_service.lookup(neo_item_list[0].id)
         pprint(neo_lookup)
+
+    pagination: Pagination = Pagination(page=1, size=10)
+    neo_browse: NeoBrowse = neows_service.browse(pagination)
+    pprint(neo_browse)
 except NasaAPIException as e:
     print(e)

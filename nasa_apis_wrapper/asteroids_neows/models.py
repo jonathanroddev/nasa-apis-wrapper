@@ -13,6 +13,21 @@ from typing import Optional, Dict, List
 from pydantic import BaseModel, model_validator, ConfigDict
 
 
+class Pagination(BaseModel):
+    """
+    Represents a pagination object.
+
+    Attributes:
+        page (Optional[int]): The page number.
+        size (Optional[int]): The number of items per page.
+
+    Notes:
+        This class is used to paginate the results of a query.
+    """
+    page: Optional[int] = None
+    size: Optional[int] = None
+
+
 class Links(BaseModel):
     """
     Represents a set of links for a given resource.
@@ -25,6 +40,25 @@ class Links(BaseModel):
     next: Optional[str] = None
     previous: Optional[str] = None
     self: Optional[str] = None
+
+
+class Page(BaseModel):
+    """
+    Represents a page object.
+
+    Attributes:
+        size (int): The number of items on the page.
+        total_elements (int): The total number of items.
+        total_pages (int): The total number of pages.
+        number (int): The current page number.
+
+    Notes:
+        This class is used to represent a page of results.
+    """
+    size: int
+    total_elements: int
+    total_pages: int
+    number: int
 
 
 valid_diameters_unit: List[str] = ["kilometers", "meters", "miles", "feet"]
@@ -184,6 +218,23 @@ class NearEarthObjects(BaseModel):
                 raise ValueError(f"The key '{key}' has not the format 'YYYY-MM-DD'")
             validated[key] = value
         return validated
+
+
+class NeoBrowse(BaseModel):
+    """
+   Represents a NeoWs browse object.
+
+   Attributes:
+       links (Links): The links for the browse object.
+       page (Page): The page object.
+       near_earth_objects (List[NearEarthObjectItem]): The list of near-Earth objects.
+
+   Notes:
+       This class is used to represent the results of a NeoWs browse query.
+   """
+    links: Links
+    page: Page
+    near_earth_objects: List[NearEarthObjectItem]
 
 
 class NeoFeed(BaseModel):

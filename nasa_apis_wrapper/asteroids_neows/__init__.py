@@ -11,5 +11,5 @@ Notes:
     It contains the `NeoFeed`, `NeoFeedRequest`, and `NeoWsService` classes,
         which are used to interact with the Near Earth Object Web Service API.
 """
-from .models import NeoFeed, NeoFeedRequest, NearEarthObjectItem
+from .models import NeoFeed, NeoFeedRequest, NearEarthObjectItem, NeoBrowse, Pagination
 from .service import NeoWsService

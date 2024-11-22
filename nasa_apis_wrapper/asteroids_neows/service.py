@@ -12,7 +12,7 @@ import json
 from typing import Optional, Union
 
 from nasa_apis_wrapper.base import BaseAPI
-from .models import NeoFeed, NeoFeedRequest, NearEarthObjectItem
+from .models import NeoFeed, NeoFeedRequest, NearEarthObjectItem, NeoBrowse, Pagination
 from ..utils import Utils
 
 
@@ -77,3 +77,24 @@ class NeoWsService(BaseAPI):
         req = self.get_request(endpoint)
         response: dict = json.loads(req.text)
         return NearEarthObjectItem(**response)
+
+    def browse(self, pagination: Pagination = None) -> NeoBrowse:
+        """
+        Retrieves the browse results of near-Earth objects.
+
+        Args:
+            pagination (Optional[Pagination]): The pagination object.
+                If not provided, the default pagination is used.
+
+        Returns:
+            NeoBrowse: The browse results of near-Earth objects.
+
+        Notes:
+            This method sends a GET request to the
+                Near Earth Object Web Service API to retrieve the browse results.
+            The results are paginated based on the provided pagination object.
+        """
+        endpoint: str = f"{self.endpoint_prefix}/neo/browse"
+        req = self.get_request(endpoint, params=Utils.obj_dict(pagination) if pagination else None)
+        response: dict = json.loads(req.text)
+        return NeoBrowse(**response)

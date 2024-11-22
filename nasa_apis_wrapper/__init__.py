@@ -13,7 +13,7 @@ Notes:
 """
 
 from .apod import APODService, APOD, APODRequest
-from .asteroids_neows import NeoFeed, NeoFeedRequest, NeoWsService, NearEarthObjectItem
+from .asteroids_neows import NeoFeed, NeoFeedRequest, NeoWsService, NearEarthObjectItem, NeoBrowse, Pagination
 from .base import BaseAPI, NasaAPIException
 from .utils import Utils
 
@@ -25,6 +25,8 @@ __all__ = [
     "NeoFeedRequest",
     "NeoWsService",
     "NearEarthObjectItem",
+    "NeoBrowse",
+    "Pagination",
     "BaseAPI",
     "NasaAPIException",
     "Utils"
