@@ -1,3 +1,4 @@
+# TODO: Update docstring
 """
 Initialization file for the NASA APIs wrapper module.
 
@@ -15,6 +16,7 @@ Notes:
 from .apod import APODService, APOD, APODRequest
 from .asteroids_neows import NeoFeed, NeoFeedRequest, NeoWsService, NearEarthObjectItem, NeoBrowse, Pagination
 from .base import BaseAPI, NasaAPIException
+from .donki import DonkiService, DonkiRequest, DonkiCMEResponse
 from .utils import Utils
 
 __all__ = [
@@ -29,5 +31,8 @@ __all__ = [
     "Pagination",
     "BaseAPI",
     "NasaAPIException",
-    "Utils"
+    "Utils",
+    "DonkiService",
+    "DonkiRequest",
+    "DonkiCMEResponse",
 ]
