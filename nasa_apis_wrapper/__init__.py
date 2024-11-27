@@ -16,7 +16,7 @@ Notes:
 from .apod import APODService, APOD, APODRequest
 from .asteroids_neows import NeoFeed, NeoFeedRequest, NeoWsService, NearEarthObjectItem, NeoBrowse, Pagination
 from .base import BaseAPI, NasaAPIException
-from .donki import DonkiService, DonkiRequest, DonkiCMEResponse
+from .donki import DonkiService, GenericDonkiRequest, DonkiCMEResponse, DonkiCMEAnalysisRequest, CMEAnalysis
 from .utils import Utils
 
 __all__ = [
@@ -33,6 +33,8 @@ __all__ = [
     "NasaAPIException",
     "Utils",
     "DonkiService",
-    "DonkiRequest",
+    "GenericDonkiRequest",
     "DonkiCMEResponse",
+    "DonkiCMEAnalysisRequest",
+    "CMEAnalysis",
 ]

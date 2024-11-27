@@ -1,14 +1,23 @@
 # TODO: add docstrings
 
 import datetime
-from typing import Optional, List
+from typing import Optional, List, Literal
 
 from pydantic import BaseModel
 
 
-class DonkiRequest(BaseModel):
+class GenericDonkiRequest(BaseModel):
     start_date: Optional[datetime.date] = None
     end_date: Optional[datetime.date] = None
+
+
+class DonkiCMEAnalysisRequest(GenericDonkiRequest):
+    mostAccurateOnly: Optional[bool] = None
+    completeEntryOnly: Optional[bool] = None
+    speed: Optional[int] = None
+    halfAngle: Optional[int] = None
+    catalog: Optional[Literal["ALL", "SWRC_CATALOG", "JANG_ET_AL_CATALOG"]] = None
+    keyword: Optional[str] = None
 
 
 class Instrument(BaseModel):
@@ -53,13 +62,17 @@ class CMEAnalysis(BaseModel):
     imageType: Optional[str] = None
     measurementTechnique: str
     note: str
-    levelOfData: int
+    levelOfData: Optional[int] = None
     tilt: Optional[str] = None
     minorHalfWidth: Optional[str] = None
     speedMeasuredAtHeight: Optional[float] = None
     submissionTime: str
     link: str
     enlilList: Optional[List[Enlil]] = None
+    associatedCMEID: Optional[str] = None
+    catalog: Optional[str] = None
+    dataLevel: Optional[str] = None
+    versionId: Optional[int] = None
 
 
 class DonkiCMEResponse(BaseModel):

@@ -4,21 +4,36 @@ import json
 from typing import Optional, List
 
 from nasa_apis_wrapper.base import BaseAPI
-from .models import DonkiRequest, DonkiCMEResponse
+from .models import GenericDonkiRequest, DonkiCMEResponse, DonkiCMEAnalysisRequest, CMEAnalysis
 from ..utils import Utils
 
 
 class DonkiService(BaseAPI):
     endpoint_prefix: str = "/DONKI"
 
-    def cme(self, donki_request: Optional[DonkiRequest] = None) -> List[DonkiCMEResponse]:
+    def cme(self, generic_donki_request: Optional[GenericDonkiRequest] = None) -> List[DonkiCMEResponse]:
         """
         Coronal Mass Ejection (CME)
         """
         endpoint: str = f"{self.endpoint_prefix}/CME"
-        req = self.get_request(endpoint, params=Utils.obj_dict(donki_request) if donki_request else None)
+        req = self.get_request(endpoint,
+                               params=Utils.obj_dict(generic_donki_request) if generic_donki_request else None)
         response: dict = json.loads(req)
         donki_cme_response_list: List[DonkiCMEResponse] = []
         for _, item in enumerate(response):
             donki_cme_response_list.append(DonkiCMEResponse(**item))
         return donki_cme_response_list
+
+    def cme_analyisis(self, donki_cme_analysis_request: Optional[DonkiCMEAnalysisRequest] = None) -> List[
+        CMEAnalysis]:
+        """
+        Coronal Mass Ejection Analysis (CME Analysis)
+        """
+        endpoint: str = f"{self.endpoint_prefix}/CMEAnalysis"
+        req = self.get_request(endpoint, params=Utils.obj_dict(
+            donki_cme_analysis_request) if donki_cme_analysis_request else None)
+        response: dict = json.loads(req)
+        donki_cme_analysis_response_list: List[CMEAnalysis] = []
+        for _, item in enumerate(response):
+            donki_cme_analysis_response_list.append(CMEAnalysis(**item))
+        return donki_cme_analysis_response_list

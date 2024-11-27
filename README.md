@@ -23,7 +23,9 @@ from nasa_apis_wrapper import (
     Pagination,
     DonkiService,
     DonkiCMEResponse,
-    DonkiRequest,
+    GenericDonkiRequest,
+    DonkiCMEAnalysisRequest,
+    CMEAnalysis,
 )
 
 api_key = "<YOUR_API_KEY>"
@@ -57,8 +59,13 @@ try:
     donki_service: DonkiService = DonkiService(api_key)
     # cme: List[DonkiCMEResponse] = donki_service.cme()
     cme: List[DonkiCMEResponse] = donki_service.cme(
-        DonkiRequest(start_date=datetime.date(2022, 3, 27), end_date=datetime.date(2022, 3, 28)))
+        GenericDonkiRequest(start_date=datetime.date(2022, 3, 27), end_date=datetime.date(2022, 3, 28)))
     pprint(cme)
+
+    cme_anaylsis: List[CMEAnalysis] = donki_service.cme_analyisis(
+        DonkiCMEAnalysisRequest(start_date=datetime.date(2022, 3, 27), end_date=datetime.date(2022, 3, 28),
+                                catalog="ALL"))
+    pprint(cme_anaylsis)
 except NasaAPIException as e:
     print(e)
 ```
