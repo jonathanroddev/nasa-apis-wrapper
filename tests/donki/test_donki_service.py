@@ -147,3 +147,34 @@ class TestDonkiService:
         assert result
         assert result[0].isMostAccurate
         assert not result[1].isMostAccurate
+
+    @patch.object(BaseAPI, "get_request", return_value=json.dumps(
+        [
+            {
+                "gstID": "2016-01-21T03:00:00-GST-001",
+                "startTime": "2016-01-21T03:00Z",
+                "allKpIndex": [
+                    {
+                        "observedTime": "2016-01-21T06:00Z",
+                        "kpIndex": 6.0,
+                        "source": "NOAA"
+                    }
+                ],
+                "link": "https://webtools.ccmc.gsfc.nasa.gov/DONKI/view/GST/10074/-1",
+                "linkedEvents": [
+                    {
+                        "activityID": "2016-01-15T00:00:00-CME-001"
+                    },
+                    {
+                        "activityID": "2016-01-21T10:00:00-HSS-001"
+                    }
+                ],
+                "submissionTime": "2016-01-21T06:28Z",
+                "versionId": 1
+            }
+        ]
+    ))
+    def test_donki_gst(self, get_request) -> None:
+        donki_service: DonkiService = DonkiService("api_key")
+        result = donki_service.gst()
+        assert result

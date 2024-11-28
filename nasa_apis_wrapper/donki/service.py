@@ -4,7 +4,11 @@ import json
 from typing import Optional, List
 
 from nasa_apis_wrapper.base import BaseAPI
-from .models import GenericDonkiRequest, DonkiCMEResponse, DonkiCMEAnalysisRequest, CMEAnalysis
+from .models import (GenericDonkiRequest,
+                     DonkiCMEResponse,
+                     DonkiCMEAnalysisRequest,
+                     CMEAnalysis,
+                     DonkiGSTResponse)
 from ..utils import Utils
 
 
@@ -37,3 +41,16 @@ class DonkiService(BaseAPI):
         for _, item in enumerate(response):
             donki_cme_analysis_response_list.append(CMEAnalysis(**item))
         return donki_cme_analysis_response_list
+
+    def gst(self, generic_donki_request: Optional[GenericDonkiRequest] = None) -> List[DonkiGSTResponse]:
+        """
+        Geomagnetic Storm (GST)
+        """
+        endpoint: str = f"{self.endpoint_prefix}/GST"
+        req = self.get_request(endpoint,
+                               params=Utils.obj_dict(generic_donki_request) if generic_donki_request else None)
+        response: dict = json.loads(req)
+        donki_gst_response_list: List[DonkiGSTResponse] = []
+        for _, item in enumerate(response):
+            donki_gst_response_list.append(DonkiGSTResponse(**item))
+        return donki_gst_response_list

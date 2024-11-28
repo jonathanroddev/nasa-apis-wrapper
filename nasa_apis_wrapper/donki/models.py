@@ -7,8 +7,8 @@ from pydantic import BaseModel
 
 
 class GenericDonkiRequest(BaseModel):
-    start_date: Optional[datetime.date] = None
-    end_date: Optional[datetime.date] = None
+    startDate: Optional[datetime.date] = None
+    endDate: Optional[datetime.date] = None
 
 
 class DonkiCMEAnalysisRequest(GenericDonkiRequest):
@@ -88,3 +88,19 @@ class DonkiCMEResponse(BaseModel):
     link: str
     cmeAnalyses: List[CMEAnalysis]
     linkedEvents: Optional[List[LinkEvent]] = None
+
+
+class KpIndexItem(BaseModel):
+    observedTime: str
+    kpIndex: float
+    source: str
+
+
+class DonkiGSTResponse(BaseModel):
+    gstID: str
+    startTime: str
+    allKpIndex: List[KpIndexItem]
+    link: str
+    linkedEvents: List[LinkEvent]
+    submissionTime: str
+    versionId: int

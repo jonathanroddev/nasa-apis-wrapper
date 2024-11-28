@@ -26,6 +26,7 @@ from nasa_apis_wrapper import (
     GenericDonkiRequest,
     DonkiCMEAnalysisRequest,
     CMEAnalysis,
+    DonkiGSTResponse,
 )
 
 api_key = "<YOUR_API_KEY>"
@@ -59,13 +60,18 @@ try:
     donki_service: DonkiService = DonkiService(api_key)
     # cme: List[DonkiCMEResponse] = donki_service.cme()
     cme: List[DonkiCMEResponse] = donki_service.cme(
-        GenericDonkiRequest(start_date=datetime.date(2022, 3, 27), end_date=datetime.date(2022, 3, 28)))
+        GenericDonkiRequest(startDate=datetime.date(2022, 3, 27), endDate=datetime.date(2022, 3, 28)))
     pprint(cme)
 
     cme_anaylsis: List[CMEAnalysis] = donki_service.cme_analyisis(
-        DonkiCMEAnalysisRequest(start_date=datetime.date(2022, 3, 27), end_date=datetime.date(2022, 3, 28),
+        DonkiCMEAnalysisRequest(startDate=datetime.date(2022, 3, 27), endDate=datetime.date(2022, 3, 28),
                                 catalog="ALL"))
     pprint(cme_anaylsis)
+
+    gst: List[DonkiGSTResponse] = donki_service.gst(
+        GenericDonkiRequest(startDate=datetime.date(2016, 1, 1), endDate=datetime.date(2016, 1, 30)))
+    pprint(gst)
+
 except NasaAPIException as e:
     print(e)
 ```
