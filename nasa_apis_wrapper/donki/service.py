@@ -8,7 +8,9 @@ from .models import (GenericDonkiRequest,
                      DonkiCMEResponse,
                      DonkiCMEAnalysisRequest,
                      CMEAnalysis,
-                     DonkiGSTResponse)
+                     DonkiGSTResponse,
+                     DonkiIPSRequest,
+                     DonkiIPSResponse)
 from ..utils import Utils
 
 
@@ -54,3 +56,16 @@ class DonkiService(BaseAPI):
         for _, item in enumerate(response):
             donki_gst_response_list.append(DonkiGSTResponse(**item))
         return donki_gst_response_list
+
+    def ips(self, donki_ips_request: Optional[DonkiIPSRequest] = None) -> List[DonkiIPSResponse]:
+        """
+        Interplanetary Shock (IPS)
+        """
+        endpoint: str = f"{self.endpoint_prefix}/IPS"
+        req = self.get_request(endpoint,
+                               params=Utils.obj_dict(donki_ips_request) if donki_ips_request else None)
+        response: dict = json.loads(req)
+        donki_ips_response_list: List[DonkiIPSResponse] = []
+        for _, item in enumerate(response):
+            donki_ips_response_list.append(DonkiIPSResponse(**item))
+        return donki_ips_response_list

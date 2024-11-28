@@ -178,3 +178,29 @@ class TestDonkiService:
         donki_service: DonkiService = DonkiService("api_key")
         result = donki_service.gst()
         assert result
+
+    @patch.object(BaseAPI, "get_request", return_value=json.dumps(
+        [
+            {
+                "catalog": "M2M_CATALOG",
+                "activityID": "2016-01-09T18:00:00-IPS-001",
+                "location": "STEREO A",
+                "eventTime": "2016-01-09T18:00Z",
+                "submissionTime": "2016-01-11T21:18Z",
+                "versionId": 2,
+                "link": "https://webtools.ccmc.gsfc.nasa.gov/DONKI/view/IPS/10028/-1",
+                "instruments": [
+                    {
+                        "displayName": "STEREO A: IMPACT"
+                    },
+                    {
+                        "displayName": "STEREO A: PLASTIC"
+                    }
+                ]
+            }
+        ]
+    ))
+    def test_donki_ips(self, get_request) -> None:
+        donki_service: DonkiService = DonkiService("api_key")
+        result = donki_service.ips()
+        assert result

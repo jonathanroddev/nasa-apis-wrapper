@@ -11,6 +11,11 @@ class GenericDonkiRequest(BaseModel):
     endDate: Optional[datetime.date] = None
 
 
+class DonkiIPSRequest(GenericDonkiRequest):
+    location: Optional[Literal["Earth", "MESSENGER", "STEREO A", "STEREO B"]] = None
+    catalog: Optional[Literal["SWRC_CATALOG", "WINSLOW_MESSENGER_ICME_CATALOG"]] = None
+
+
 class DonkiCMEAnalysisRequest(GenericDonkiRequest):
     mostAccurateOnly: Optional[bool] = None
     completeEntryOnly: Optional[bool] = None
@@ -104,3 +109,14 @@ class DonkiGSTResponse(BaseModel):
     linkedEvents: List[LinkEvent]
     submissionTime: str
     versionId: int
+
+
+class DonkiIPSResponse(BaseModel):
+    activityID: str
+    catalog: str
+    location: str
+    eventTime: str
+    submissionTime: str
+    instruments: List[Instrument]
+    versionId: int
+    link: str

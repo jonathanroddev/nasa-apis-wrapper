@@ -27,6 +27,8 @@ from nasa_apis_wrapper import (
     DonkiCMEAnalysisRequest,
     CMEAnalysis,
     DonkiGSTResponse,
+    DonkiIPSResponse,
+    DonkiIPSRequest,
 )
 
 api_key = "<YOUR_API_KEY>"
@@ -71,6 +73,10 @@ try:
     gst: List[DonkiGSTResponse] = donki_service.gst(
         GenericDonkiRequest(startDate=datetime.date(2016, 1, 1), endDate=datetime.date(2016, 1, 30)))
     pprint(gst)
+
+    ips: List[DonkiIPSResponse] = donki_service.ips(
+        DonkiIPSRequest(startDate=datetime.date(2016, 1, 1), endDate=datetime.date(2016, 1, 30), location="Earth"))
+    pprint(ips)
 
 except NasaAPIException as e:
     print(e)
