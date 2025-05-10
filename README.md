@@ -16,25 +16,33 @@ from nasa_apis_wrapper import (
     APODRequest,
     NeoWsService,
     NeoFeed,
+    NeoFeedRequest,
     NasaAPIException,
     NearEarthObjectItem,
     NeoBrowse,
     Pagination,
+    DonkiService,
+    DonkiCMEResponse,
+    GenericDonkiRequest,
+    DonkiCMEAnalysisRequest,
+    CMEAnalysis,
+    DonkiGSTResponse,
+    DonkiIPSResponse,
+    DonkiIPSRequest,
 )
 
 api_key = "<YOUR_API_KEY>"
 
-apod_service: APODService = APODService(api_key)
-
 try:
     # APOD
+    apod_service: APODService = APODService(api_key)
     apod: APOD = apod_service.get_astronomy_picture_of_day(APODRequest(date=datetime.date(2022, 3, 27)))
     pprint(apod)
 
     # Asteroids NeoWs
     neows_service: NeoWsService = NeoWsService(api_key)
-    neo_feed: NeoFeed = neows_service.feed()
-    # neo_feed: NeoFeed = neows_service.feed(NeoFeedRequest(start_date=datetime.date(202, 1, 1)))
+    # neo_feed: NeoFeed = neows_service.feed()
+    neo_feed: NeoFeed = neows_service.feed(NeoFeedRequest(start_date=datetime.date(2022, 3, 27)))
     pprint(neo_feed)
 
     if neo_feed:
@@ -49,6 +57,27 @@ try:
     pagination: Pagination = Pagination(page=1, size=10)
     neo_browse: NeoBrowse = neows_service.browse(pagination)
     pprint(neo_browse)
+
+    # DONKI
+    donki_service: DonkiService = DonkiService(api_key)
+    # cme: List[DonkiCMEResponse] = donki_service.cme()
+    cme: List[DonkiCMEResponse] = donki_service.cme(
+        GenericDonkiRequest(startDate=datetime.date(2022, 3, 27), endDate=datetime.date(2022, 3, 28)))
+    pprint(cme)
+
+    cme_anaylsis: List[CMEAnalysis] = donki_service.cme_analyisis(
+        DonkiCMEAnalysisRequest(startDate=datetime.date(2022, 3, 27), endDate=datetime.date(2022, 3, 28),
+                                catalog="ALL"))
+    pprint(cme_anaylsis)
+
+    gst: List[DonkiGSTResponse] = donki_service.gst(
+        GenericDonkiRequest(startDate=datetime.date(2016, 1, 1), endDate=datetime.date(2016, 1, 30)))
+    pprint(gst)
+
+    ips: List[DonkiIPSResponse] = donki_service.ips(
+        DonkiIPSRequest(startDate=datetime.date(2016, 1, 1), endDate=datetime.date(2016, 1, 30), location="Earth"))
+    pprint(ips)
+
 except NasaAPIException as e:
     print(e)
 ```
