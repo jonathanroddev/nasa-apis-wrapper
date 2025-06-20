@@ -13,6 +13,7 @@ from .models import (
     DonkiIPSRequest,
     DonkiIPSResponse,
     DonkiFLRResponse,
+    DonkiSEPResponse,
 )
 from ..utils import Utils
 
@@ -114,3 +115,22 @@ class DonkiService(BaseAPI):
         for _, item in enumerate(response):
             donki_flr_response_list.append(DonkiFLRResponse(**item))
         return donki_flr_response_list
+
+    def sep(
+        self, generic_donki_request: Optional[GenericDonkiRequest] = None
+    ) -> List[DonkiSEPResponse]:
+        """
+        Solar Energetic Particle (SEP)
+        """
+        endpoint: str = f"{self.endpoint_prefix}/SEP"
+        req = self.get_request(
+            endpoint,
+            params=(
+                Utils.obj_dict(generic_donki_request) if generic_donki_request else None
+            ),
+        )
+        response: dict = json.loads(req)
+        donki_sep_response_list: List[DonkiSEPResponse] = []
+        for _, item in enumerate(response):
+            donki_sep_response_list.append(DonkiSEPResponse(**item))
+        return donki_sep_response_list

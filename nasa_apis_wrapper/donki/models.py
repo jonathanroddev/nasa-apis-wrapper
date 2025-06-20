@@ -137,3 +137,13 @@ class DonkiFLRResponse(BaseModel):
     versionId: int
     link: str
     linkedEvents: Optional[List[LinkEvent]]
+
+
+class DonkiSEPResponse(BaseModel):
+    sepID: str
+    eventTime: str
+    instruments: List[Instrument]
+    submissionTime: str
+    versionId: int
+    link: str
+    linkedEvents: Optional[List[LinkEvent]]

@@ -240,3 +240,28 @@ class TestDonkiService:
         donki_service: DonkiService = DonkiService("api_key")
         result = donki_service.flr()
         assert result
+
+    @patch.object(
+        BaseAPI,
+        "get_request",
+        return_value=json.dumps(
+            [
+                {
+                    "sepID": "2016-01-02T02:48:00-SEP-001",
+                    "eventTime": "2016-01-02T02:48Z",
+                    "instruments": [{"displayName": "SOHO: COSTEP 15.8-39.8 MeV"}],
+                    "submissionTime": "2016-01-02T04:45Z",
+                    "versionId": 1,
+                    "link": "https://webtools.ccmc.gsfc.nasa.gov/DONKI/view/SEP/9966/-1",
+                    "linkedEvents": [
+                        {"activityID": "2016-01-01T23:00:00-FLR-001"},
+                        {"activityID": "2016-01-01T23:12:00-CME-001"},
+                    ],
+                }
+            ]
+        ),
+    )
+    def test_donki_sep(self, get_request) -> None:
+        donki_service: DonkiService = DonkiService("api_key")
+        result = donki_service.sep()
+        assert result

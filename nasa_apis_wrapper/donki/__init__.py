@@ -9,5 +9,6 @@ from .models import (
     DonkiIPSRequest,
     DonkiIPSResponse,
     DonkiFLRResponse,
+    DonkiSEPResponse,
 )
 from .service import DonkiService
