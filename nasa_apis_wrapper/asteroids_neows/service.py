@@ -52,7 +52,10 @@ class NeoWsService(BaseAPI):
             The feed is filtered by the closest approach date to Earth.
         """
         endpoint: str = f"{self.endpoint_prefix}/feed"
-        req = self.get_request(endpoint, params=Utils.obj_dict(neo_feed_request) if neo_feed_request else None)
+        req = self.get_request(
+            endpoint,
+            params=Utils.obj_dict(neo_feed_request) if neo_feed_request else None,
+        )
         response: dict = json.loads(req)
         return NeoFeed(**response)
 
@@ -95,6 +98,8 @@ class NeoWsService(BaseAPI):
             The results are paginated based on the provided pagination object.
         """
         endpoint: str = f"{self.endpoint_prefix}/neo/browse"
-        req = self.get_request(endpoint, params=Utils.obj_dict(pagination) if pagination else None)
+        req = self.get_request(
+            endpoint, params=Utils.obj_dict(pagination) if pagination else None
+        )
         response: dict = json.loads(req)
         return NeoBrowse(**response)

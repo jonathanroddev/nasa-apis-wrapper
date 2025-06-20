@@ -23,7 +23,9 @@ class APODService(BaseAPI):
         get_astronomy_picture_of_day: Retrieves the APOD for the current day.
     """
 
-    def get_astronomy_picture_of_day(self, apod_request: Optional[APODRequest] = None) -> APOD:
+    def get_astronomy_picture_of_day(
+        self, apod_request: Optional[APODRequest] = None
+    ) -> APOD:
         """
         Retrieves the APOD for the current day.
 
@@ -34,6 +36,8 @@ class APODService(BaseAPI):
             This method sends a GET request to the NASA APOD API to retrieve the APOD data.
         """
         endpoint: str = "/planetary/apod"
-        req = self.get_request(endpoint, params=Utils.obj_dict(apod_request) if apod_request else None)
+        req = self.get_request(
+            endpoint, params=Utils.obj_dict(apod_request) if apod_request else None
+        )
         response: dict = json.loads(req)
         return APOD(**response)

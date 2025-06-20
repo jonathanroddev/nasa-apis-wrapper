@@ -121,6 +121,7 @@ class DonkiIPSResponse(BaseModel):
     versionId: int
     link: str
 
+
 class DonkiFLRResponse(BaseModel):
     flrID: str
     catalog: str

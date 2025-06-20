@@ -4,6 +4,7 @@ Module for utility functions.
 This module contains a collection of utility functions
     that can be used throughout the NASA APIs wrapper.
 """
+
 import datetime
 from typing import Any
 
