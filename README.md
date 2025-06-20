@@ -29,6 +29,7 @@ from nasa_apis_wrapper import (
     DonkiGSTResponse,
     DonkiIPSResponse,
     DonkiIPSRequest,
+    DonkiFLRResponse,
 )
 
 api_key = "<YOUR_API_KEY>"
@@ -77,6 +78,10 @@ try:
     ips: List[DonkiIPSResponse] = donki_service.ips(
         DonkiIPSRequest(startDate=datetime.date(2016, 1, 1), endDate=datetime.date(2016, 1, 30), location="Earth"))
     pprint(ips)
+    
+    flr: List[DonkiFLRResponse] = donki_service.flr(
+            GenericDonkiRequest(startDate=datetime.date(2022, 3, 27), endDate=datetime.date(2022, 3, 28)))
+        pprint(flr)
 
 except NasaAPIException as e:
     print(e)
@@ -88,4 +93,5 @@ except NasaAPIException as e:
  poetry run pytest
  poetry run pytest --cov
  poetry run pytest --cov --cov-report term-missing
+ black <directory>
 ```

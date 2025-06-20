@@ -23,7 +23,8 @@ from .donki import (DonkiService,
                     CMEAnalysis,
                     DonkiGSTResponse,
                     DonkiIPSRequest,
-                    DonkiIPSResponse)
+                    DonkiIPSResponse,
+                    DonkiFLRResponse)
 from .utils import Utils
 
 __all__ = [
@@ -47,4 +48,5 @@ __all__ = [
     "DonkiGSTResponse",
     "DonkiIPSRequest",
     "DonkiIPSResponse",
+    "DonkiFLRResponse",
 ]

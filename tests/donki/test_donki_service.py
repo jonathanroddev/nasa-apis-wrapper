@@ -204,3 +204,42 @@ class TestDonkiService:
         donki_service: DonkiService = DonkiService("api_key")
         result = donki_service.ips()
         assert result
+
+    @patch.object(BaseAPI, "get_request", return_value=json.dumps(
+        [
+            {
+                "flrID": "2016-01-01T23:00:00-FLR-001",
+                "catalog": "M2M_CATALOG",
+                "instruments": [
+                    {
+                        "displayName": "GOES15: SEM/XRS 1.0-8.0"
+                    }
+                ],
+                "beginTime": "2016-01-01T23:00Z",
+                "peakTime": "2015-01-02T00:10Z",
+                "endTime": None,
+                "classType": "M2.3",
+                "sourceLocation": "S21W73",
+                "activeRegionNum": 12473,
+                "note": "Associated eruption visible in SOD AIA 171. 193, and 304 with opening field lines and filament liftoff.",
+                "submissionTime": "2016-01-04T09:22Z",
+                "versionId": 2,
+                "link": "https://webtools.ccmc.gsfc.nasa.gov/DONKI/view/FLR/9963/-1",
+                "linkedEvents": [
+                    {
+                        "activityID": "2016-01-01T23:12:00-CME-001"
+                    },
+                    {
+                        "activityID": "2016-01-02T02:48:00-SEP-001"
+                    },
+                    {
+                        "activityID": "2016-01-02T04:30:00-SEP-001"
+                    }
+                ]
+            }
+        ]
+    ))
+    def test_donki_flr(self, get_request) -> None:
+        donki_service: DonkiService = DonkiService("api_key")
+        result = donki_service.flr()
+        assert result

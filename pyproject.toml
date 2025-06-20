@@ -10,11 +10,15 @@ python = "^3.12"
 pydantic = "^2.9"
 requests = "^2.32"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 devtools = "^0.12.2"
 pytest = "^8.3.3"
 pytest-cov = "^6.0.0"
 responses = "^0.25.3"
+black = "^25.1.0"
+
+[tool.poetry.scripts]
+local = "local:main"
 
 [build-system]
 requires = ["poetry-core"]

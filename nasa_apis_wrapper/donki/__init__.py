@@ -6,5 +6,6 @@ from .models import (GenericDonkiRequest,
                      CMEAnalysis,
                      DonkiGSTResponse,
                      DonkiIPSRequest,
-                     DonkiIPSResponse)
+                     DonkiIPSResponse,
+                     DonkiFLRResponse)
 from .service import DonkiService

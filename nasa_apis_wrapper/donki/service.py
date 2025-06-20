@@ -10,7 +10,8 @@ from .models import (GenericDonkiRequest,
                      CMEAnalysis,
                      DonkiGSTResponse,
                      DonkiIPSRequest,
-                     DonkiIPSResponse)
+                     DonkiIPSResponse,
+                     DonkiFLRResponse)
 from ..utils import Utils
 
 
@@ -69,3 +70,16 @@ class DonkiService(BaseAPI):
         for _, item in enumerate(response):
             donki_ips_response_list.append(DonkiIPSResponse(**item))
         return donki_ips_response_list
+
+    def flr(self, generic_donki_request: Optional[GenericDonkiRequest] = None) -> List[DonkiFLRResponse]:
+        """
+        Solar Flare (FLR)
+        """
+        endpoint: str = f"{self.endpoint_prefix}/FLR"
+        req = self.get_request(endpoint,
+                               params=Utils.obj_dict(generic_donki_request) if generic_donki_request else None)
+        response: dict = json.loads(req)
+        donki_flr_response_list: List[DonkiFLRResponse] = []
+        for _, item in enumerate(response):
+            donki_flr_response_list.append(DonkiFLRResponse(**item))
+        return donki_flr_response_list

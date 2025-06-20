@@ -120,3 +120,19 @@ class DonkiIPSResponse(BaseModel):
     instruments: List[Instrument]
     versionId: int
     link: str
+
+class DonkiFLRResponse(BaseModel):
+    flrID: str
+    catalog: str
+    instruments: List[Instrument]
+    beginTime: str
+    peakTime: str
+    endTime: Optional[str]
+    classType: str
+    sourceLocation: str
+    activeRegionNum: int
+    note: str
+    submissionTime: str
+    versionId: int
+    link: str
+    linkedEvents: Optional[List[LinkEvent]]
