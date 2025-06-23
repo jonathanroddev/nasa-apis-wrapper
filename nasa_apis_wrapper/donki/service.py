@@ -15,6 +15,7 @@ from .models import (
     DonkiFLRResponse,
     DonkiSEPResponse,
     DonkiMPCResponse,
+    DonkiRBEResponse,
 )
 from ..utils import Utils
 
@@ -154,3 +155,22 @@ class DonkiService(BaseAPI):
         for _, item in enumerate(response):
             donki_mpc_response_list.append(DonkiMPCResponse(**item))
         return donki_mpc_response_list
+
+    def rbe(
+        self, generic_donki_request: Optional[GenericDonkiRequest] = None
+    ) -> List[DonkiRBEResponse]:
+        """
+        Radiation Belt Enhancement (RBE)
+        """
+        endpoint: str = f"{self.endpoint_prefix}/RBE"
+        req = self.get_request(
+            endpoint,
+            params=(
+                Utils.obj_dict(generic_donki_request) if generic_donki_request else None
+            ),
+        )
+        response: dict = json.loads(req)
+        donki_rbe_response_list: List[DonkiRBEResponse] = []
+        for _, item in enumerate(response):
+            donki_rbe_response_list.append(DonkiRBEResponse(**item))
+        return donki_rbe_response_list

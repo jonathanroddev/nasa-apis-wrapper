@@ -151,3 +151,7 @@ class DonkiSEPResponse(DonkiGenericFullResponse):
 
 class DonkiMPCResponse(DonkiGenericFullResponse):
     mpcID: str
+
+
+class DonkiRBEResponse(DonkiGenericFullResponse):
+    rbeID: str

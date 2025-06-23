@@ -272,3 +272,25 @@ class TestDonkiService:
         donki_service: DonkiService = DonkiService("api_key")
         result = donki_service.mpc()
         assert result
+
+    @patch.object(
+        BaseAPI,
+        "get_request",
+        return_value=json.dumps(
+            [
+                {
+                    "rbeID": "2016-01-02T12:25:00-RBE-001",
+                    "eventTime": "2016-01-02T12:25Z",
+                    "instruments": [{"displayName": "GOES13: SEM/EPS \u003e0.8 MeV"}],
+                    "submissionTime": "2016-01-02T13:25Z",
+                    "versionId": 2,
+                    "link": "https://webtools.ccmc.gsfc.nasa.gov/DONKI/view/RBE/9969/-1",
+                    "linkedEvents": [{"activityID": "2015-12-28T12:39:00-CME-001"}],
+                }
+            ]
+        ),
+    )
+    def test_donki_rbe(self, get_request) -> None:
+        donki_service: DonkiService = DonkiService("api_key")
+        result = donki_service.rbe()
+        assert result

@@ -32,6 +32,7 @@ from nasa_apis_wrapper import (
     DonkiFLRResponse,
     DonkiSEPResponse,
     DonkiMPCResponse,
+    DonkiRBEResponse,
 )
 
 api_key = "<YOUR_API_KEY>"
@@ -93,6 +94,10 @@ api_key = "<YOUR_API_KEY>"
         mpc: List[DonkiMPCResponse] = donki_service.mpc(
             GenericDonkiRequest(startDate=datetime.date(2016, 1, 1), endDate=datetime.date(2016, 1, 30)))
         pprint(mpc)
+        
+        rbe: List[DonkiRBEResponse] = donki_service.rbe(
+            GenericDonkiRequest(startDate=datetime.date(2016, 1, 1), endDate=datetime.date(2016, 1, 30)))
+        pprint(rbe)
 
     except NasaAPIException as e:
         print(e)
