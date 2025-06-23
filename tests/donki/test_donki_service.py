@@ -294,3 +294,29 @@ class TestDonkiService:
         donki_service: DonkiService = DonkiService("api_key")
         result = donki_service.rbe()
         assert result
+
+    @patch.object(
+        BaseAPI,
+        "get_request",
+        return_value=json.dumps(
+            [
+                {
+                    "hssID": "2025-05-27T18:55:00-HSS-001",
+                    "eventTime": "2025-05-27T18:55Z",
+                    "instruments": [
+                        {
+                            "displayName": "DSCOVR: PLASMAG"
+                        }
+                    ],
+                    "submissionTime": "2025-05-28T11:16Z",
+                    "versionId": 1,
+                    "link": "https://webtools.ccmc.gsfc.nasa.gov/DONKI/view/HSS/39130/-1",
+                    "linkedEvents": None
+                }
+            ]
+        ),
+    )
+    def test_donki_hss(self, get_request) -> None:
+        donki_service: DonkiService = DonkiService("api_key")
+        result = donki_service.hss()
+        assert result

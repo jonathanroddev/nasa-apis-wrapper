@@ -155,3 +155,7 @@ class DonkiMPCResponse(DonkiGenericFullResponse):
 
 class DonkiRBEResponse(DonkiGenericFullResponse):
     rbeID: str
+
+class DonkiHSSResponse(DonkiGenericEventTimeResponse):
+    hssID: str
+    linkedEvents: Optional[List[LinkEvent]]

@@ -16,6 +16,7 @@ from .models import (
     DonkiSEPResponse,
     DonkiMPCResponse,
     DonkiRBEResponse,
+    DonkiHSSResponse,
 )
 from ..utils import Utils
 
@@ -174,3 +175,22 @@ class DonkiService(BaseAPI):
         for _, item in enumerate(response):
             donki_rbe_response_list.append(DonkiRBEResponse(**item))
         return donki_rbe_response_list
+
+    def hss(
+        self, generic_donki_request: Optional[GenericDonkiRequest] = None
+    ) -> List[DonkiHSSResponse]:
+        """
+        Hight Speed Stream (HSS)
+        """
+        endpoint: str = f"{self.endpoint_prefix}/HSS"
+        req = self.get_request(
+            endpoint,
+            params=(
+                Utils.obj_dict(generic_donki_request) if generic_donki_request else None
+            ),
+        )
+        response: dict = json.loads(req)
+        donki_hss_response_list: List[DonkiHSSResponse] = []
+        for _, item in enumerate(response):
+            donki_hss_response_list.append(DonkiHSSResponse(**item))
+        return donki_hss_response_list

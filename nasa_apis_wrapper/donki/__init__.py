@@ -12,5 +12,6 @@ from .models import (
     DonkiSEPResponse,
     DonkiMPCResponse,
     DonkiRBEResponse,
+    DonkiHSSResponse,
 )
 from .service import DonkiService
