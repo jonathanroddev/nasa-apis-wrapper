@@ -111,21 +111,30 @@ class DonkiGSTResponse(BaseModel):
     versionId: int
 
 
-class DonkiIPSResponse(BaseModel):
-    activityID: str
-    catalog: str
-    location: str
-    eventTime: str
-    submissionTime: str
+class DonkiGenericResponse(BaseModel):
     instruments: List[Instrument]
+    submissionTime: str
     versionId: int
     link: str
 
 
-class DonkiFLRResponse(BaseModel):
+class DonkiGenericEventTimeResponse(DonkiGenericResponse):
+    eventTime: str
+
+
+class DonkiIPSResponse(DonkiGenericEventTimeResponse):
+    activityID: str
+    catalog: str
+    location: str
+
+
+class DonkiGenericFullResponse(DonkiGenericEventTimeResponse):
+    linkedEvents: List[LinkEvent]
+
+
+class DonkiFLRResponse(DonkiGenericResponse):
     flrID: str
     catalog: str
-    instruments: List[Instrument]
     beginTime: str
     peakTime: str
     endTime: Optional[str]
@@ -133,17 +142,12 @@ class DonkiFLRResponse(BaseModel):
     sourceLocation: str
     activeRegionNum: int
     note: str
-    submissionTime: str
-    versionId: int
-    link: str
     linkedEvents: Optional[List[LinkEvent]]
 
 
-class DonkiSEPResponse(BaseModel):
+class DonkiSEPResponse(DonkiGenericFullResponse):
     sepID: str
-    eventTime: str
-    instruments: List[Instrument]
-    submissionTime: str
-    versionId: int
-    link: str
-    linkedEvents: Optional[List[LinkEvent]]
+
+
+class DonkiMPCResponse(DonkiGenericFullResponse):
+    mpcID: str

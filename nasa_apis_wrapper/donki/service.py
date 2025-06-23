@@ -14,6 +14,7 @@ from .models import (
     DonkiIPSResponse,
     DonkiFLRResponse,
     DonkiSEPResponse,
+    DonkiMPCResponse,
 )
 from ..utils import Utils
 
@@ -134,3 +135,22 @@ class DonkiService(BaseAPI):
         for _, item in enumerate(response):
             donki_sep_response_list.append(DonkiSEPResponse(**item))
         return donki_sep_response_list
+
+    def mpc(
+        self, generic_donki_request: Optional[GenericDonkiRequest] = None
+    ) -> List[DonkiMPCResponse]:
+        """
+        Magnetopause Crossing (MPC)
+        """
+        endpoint: str = f"{self.endpoint_prefix}/MPC"
+        req = self.get_request(
+            endpoint,
+            params=(
+                Utils.obj_dict(generic_donki_request) if generic_donki_request else None
+            ),
+        )
+        response: dict = json.loads(req)
+        donki_mpc_response_list: List[DonkiMPCResponse] = []
+        for _, item in enumerate(response):
+            donki_mpc_response_list.append(DonkiMPCResponse(**item))
+        return donki_mpc_response_list

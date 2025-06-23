@@ -41,17 +41,7 @@ def generate_cme_analysis_item() -> dict:
                         "isGlancingBlow": False,
                         "location": "Spitzer",
                         "arrivalTime": "2017-01-06T07:31Z",
-                    },
-                    {
-                        "isGlancingBlow": True,
-                        "location": "Mars",
-                        "arrivalTime": "2017-01-07T06:00Z",
-                    },
-                    {
-                        "isGlancingBlow": True,
-                        "location": "STEREO A",
-                        "arrivalTime": "2017-01-06T00:00Z",
-                    },
+                    }
                 ],
                 "cmeIDs": ["2017-01-03T03:12:00-CME-001"],
             }
@@ -169,7 +159,6 @@ class TestDonkiService:
                     "link": "https://webtools.ccmc.gsfc.nasa.gov/DONKI/view/GST/10074/-1",
                     "linkedEvents": [
                         {"activityID": "2016-01-15T00:00:00-CME-001"},
-                        {"activityID": "2016-01-21T10:00:00-HSS-001"},
                     ],
                     "submissionTime": "2016-01-21T06:28Z",
                     "versionId": 1,
@@ -197,7 +186,6 @@ class TestDonkiService:
                     "link": "https://webtools.ccmc.gsfc.nasa.gov/DONKI/view/IPS/10028/-1",
                     "instruments": [
                         {"displayName": "STEREO A: IMPACT"},
-                        {"displayName": "STEREO A: PLASTIC"},
                     ],
                 }
             ]
@@ -229,8 +217,6 @@ class TestDonkiService:
                     "link": "https://webtools.ccmc.gsfc.nasa.gov/DONKI/view/FLR/9963/-1",
                     "linkedEvents": [
                         {"activityID": "2016-01-01T23:12:00-CME-001"},
-                        {"activityID": "2016-01-02T02:48:00-SEP-001"},
-                        {"activityID": "2016-01-02T04:30:00-SEP-001"},
                     ],
                 }
             ]
@@ -255,7 +241,6 @@ class TestDonkiService:
                     "link": "https://webtools.ccmc.gsfc.nasa.gov/DONKI/view/SEP/9966/-1",
                     "linkedEvents": [
                         {"activityID": "2016-01-01T23:00:00-FLR-001"},
-                        {"activityID": "2016-01-01T23:12:00-CME-001"},
                     ],
                 }
             ]
@@ -264,4 +249,26 @@ class TestDonkiService:
     def test_donki_sep(self, get_request) -> None:
         donki_service: DonkiService = DonkiService("api_key")
         result = donki_service.sep()
+        assert result
+
+    @patch.object(
+        BaseAPI,
+        "get_request",
+        return_value=json.dumps(
+            [
+                {
+                    "mpcID": "2016-03-06T16:32:00-MPC-001",
+                    "eventTime": "2016-03-06T16:32Z",
+                    "instruments": [{"displayName": "MODEL: SWMF"}],
+                    "submissionTime": "2016-03-06T16:26Z",
+                    "versionId": 1,
+                    "link": "https://webtools.ccmc.gsfc.nasa.gov/DONKI/view/MPC/10300/-1",
+                    "linkedEvents": [{"activityID": "2016-03-06T04:30:00-IPS-001"}],
+                }
+            ]
+        ),
+    )
+    def test_donki_mpc(self, get_request) -> None:
+        donki_service: DonkiService = DonkiService("api_key")
+        result = donki_service.mpc()
         assert result
