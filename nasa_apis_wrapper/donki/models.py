@@ -25,6 +25,12 @@ class DonkiCMEAnalysisRequest(GenericDonkiRequest):
     keyword: Optional[str] = None
 
 
+class DonkiNotificationsRequest(GenericDonkiRequest):
+    type: Optional[
+        Literal["all", "FLR", "SEP", "CME", "IPS", "MPC", "GST", "RBE", "report"]
+    ] = None
+
+
 class Instrument(BaseModel):
     displayName: str
 
@@ -177,3 +183,11 @@ class CMEInput(CMECommonResponse):
 class DonkiWSAEnlilSimulationResponse(EnlilCommonResponse):
     simulationID: str
     cmeInputs: List[CMEInput]
+
+
+class DonkiNotificationResponse(BaseModel):
+    messageType: Literal["FLR", "SEP", "CME", "IPS", "MPC", "GST", "RBE", "Report"]
+    messageID: str
+    messageURL: str
+    messageIssueTime: str
+    messageBody: str

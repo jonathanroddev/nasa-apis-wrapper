@@ -359,3 +359,23 @@ class TestDonkiService:
         donki_service: DonkiService = DonkiService("api_key")
         result = donki_service.wsa_enlil_simulation()
         assert result
+
+    @patch.object(
+        BaseAPI,
+        "get_request",
+        return_value=json.dumps(
+            [
+                {
+                    "messageType": "FLR",
+                    "messageID": "20140508-AL-002",
+                    "messageURL": "https://kauai.ccmc.gsfc.nasa.gov/DONKI/view/Alert/5432/1",
+                    "messageIssueTime": "2014-05-08T12:43Z",
+                    "messageBody": "## NASA Goddard Space Flight Center, Space Weather Research Center ( SWRC )\n## Message Type: Space Weather Notification",
+                }
+            ]
+        ),
+    )
+    def test_donki_notifications(self, get_request) -> None:
+        donki_service: DonkiService = DonkiService("api_key")
+        result = donki_service.notifications()
+        assert result

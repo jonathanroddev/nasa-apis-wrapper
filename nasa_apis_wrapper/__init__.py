@@ -38,6 +38,8 @@ from .donki import (
     DonkiRBEResponse,
     DonkiHSSResponse,
     DonkiWSAEnlilSimulationResponse,
+    DonkiNotificationsRequest,
+    DonkiNotificationResponse,
 )
 from .utils import Utils
 
@@ -68,4 +70,6 @@ __all__ = [
     "DonkiRBEResponse",
     "DonkiHSSResponse",
     "DonkiWSAEnlilSimulationResponse",
+    "DonkiNotificationsRequest",
+    "DonkiNotificationResponse",
 ]

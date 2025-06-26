@@ -18,6 +18,8 @@ from .models import (
     DonkiRBEResponse,
     DonkiHSSResponse,
     DonkiWSAEnlilSimulationResponse,
+    DonkiNotificationsRequest,
+    DonkiNotificationResponse,
 )
 from ..utils import Utils
 
@@ -218,3 +220,24 @@ class DonkiService(BaseAPI):
                 DonkiWSAEnlilSimulationResponse(**item)
             )
         return donki_wsa_enlil_simulation_response_list
+
+    def notifications(
+        self, donki_notifications_request: Optional[DonkiNotificationsRequest] = None
+    ) -> List[DonkiNotificationResponse]:
+        """
+        Notifications
+        """
+        endpoint: str = f"{self.endpoint_prefix}/notifications"
+        req = self.get_request(
+            endpoint,
+            params=(
+                Utils.obj_dict(donki_notifications_request)
+                if donki_notifications_request
+                else None
+            ),
+        )
+        response: dict = json.loads(req)
+        donki_notifications_response_list: List[DonkiNotificationResponse] = []
+        for _, item in enumerate(response):
+            donki_notifications_response_list.append(DonkiNotificationResponse(**item))
+        return donki_notifications_response_list

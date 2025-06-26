@@ -14,5 +14,7 @@ from .models import (
     DonkiRBEResponse,
     DonkiHSSResponse,
     DonkiWSAEnlilSimulationResponse,
+    DonkiNotificationsRequest,
+    DonkiNotificationResponse,
 )
 from .service import DonkiService
