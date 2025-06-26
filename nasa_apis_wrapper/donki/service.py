@@ -17,6 +17,7 @@ from .models import (
     DonkiMPCResponse,
     DonkiRBEResponse,
     DonkiHSSResponse,
+    DonkiWSAEnlilSimulationResponse,
 )
 from ..utils import Utils
 
@@ -194,3 +195,26 @@ class DonkiService(BaseAPI):
         for _, item in enumerate(response):
             donki_hss_response_list.append(DonkiHSSResponse(**item))
         return donki_hss_response_list
+
+    def wsa_enlil_simulation(
+        self, generic_donki_request: Optional[GenericDonkiRequest] = None
+    ) -> List[DonkiWSAEnlilSimulationResponse]:
+        """
+        WSA+EnlilSimulation
+        """
+        endpoint: str = f"{self.endpoint_prefix}/WSAEnlilSimulations"
+        req = self.get_request(
+            endpoint,
+            params=(
+                Utils.obj_dict(generic_donki_request) if generic_donki_request else None
+            ),
+        )
+        response: dict = json.loads(req)
+        donki_wsa_enlil_simulation_response_list: List[
+            DonkiWSAEnlilSimulationResponse
+        ] = []
+        for _, item in enumerate(response):
+            donki_wsa_enlil_simulation_response_list.append(
+                DonkiWSAEnlilSimulationResponse(**item)
+            )
+        return donki_wsa_enlil_simulation_response_list

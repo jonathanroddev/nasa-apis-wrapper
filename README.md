@@ -34,6 +34,7 @@ from nasa_apis_wrapper import (
     DonkiMPCResponse,
     DonkiRBEResponse,
     DonkiHSSResponse,
+    DonkiWSAEnlilSimulationResponse,
 )
 
 api_key = "<YOUR_API_KEY>"
@@ -103,6 +104,10 @@ api_key = "<YOUR_API_KEY>"
         hss: List[DonkiHSSResponse] = donki_service.hss(
             GenericDonkiRequest(startDate=datetime.date(2016, 1, 1), endDate=datetime.date(2016, 1, 30)))
         pprint(hss)
+        
+        wsa_enlil_simulation: List[DonkiWSAEnlilSimulationResponse] = donki_service.wsa_enlil_simulation(
+            GenericDonkiRequest(startDate=datetime.date(2016, 1, 1), endDate=datetime.date(2016, 1, 30)))
+        pprint(wsa_enlil_simulation)
 
     except NasaAPIException as e:
         print(e)

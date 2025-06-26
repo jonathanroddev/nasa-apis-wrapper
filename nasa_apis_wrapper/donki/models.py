@@ -39,7 +39,7 @@ class Impact(BaseModel):
     arrivalTime: str
 
 
-class Enlil(BaseModel):
+class EnlilCommonResponse(BaseModel):
     modelCompletionTime: str
     au: float
     estimatedShockArrivalTime: Optional[str] = None
@@ -52,22 +52,28 @@ class Enlil(BaseModel):
     isEarthGB: bool
     link: str
     impactList: Optional[List[Impact]] = None
+
+
+class Enlil(EnlilCommonResponse):
     cmeIDs: List[str]
 
 
-class CMEAnalysis(BaseModel):
-    isMostAccurate: bool
-    time21_5: str
+class CMECommonResponse(BaseModel):
     latitude: float
     longitude: Optional[float] = None
-    halfAngle: float
     speed: float
-    type: str
+    time21_5: str
+    halfAngle: float
     featureCode: str
+    isMostAccurate: bool
+    levelOfData: Optional[int] = None
+
+
+class CMEAnalysis(CMECommonResponse):
+    type: str
     imageType: Optional[str] = None
     measurementTechnique: str
     note: str
-    levelOfData: Optional[int] = None
     tilt: Optional[str] = None
     minorHalfWidth: Optional[str] = None
     speedMeasuredAtHeight: Optional[float] = None
@@ -113,9 +119,9 @@ class DonkiGSTResponse(BaseModel):
 
 class DonkiGenericResponse(BaseModel):
     instruments: List[Instrument]
-    submissionTime: str
+    submissionTime: Optional[str]
     versionId: int
-    link: str
+    link: Optional[str]
 
 
 class DonkiGenericEventTimeResponse(DonkiGenericResponse):
@@ -124,7 +130,7 @@ class DonkiGenericEventTimeResponse(DonkiGenericResponse):
 
 class DonkiIPSResponse(DonkiGenericEventTimeResponse):
     activityID: str
-    catalog: str
+    catalog: Optional[str]
     location: str
 
 
@@ -156,6 +162,18 @@ class DonkiMPCResponse(DonkiGenericFullResponse):
 class DonkiRBEResponse(DonkiGenericFullResponse):
     rbeID: str
 
+
 class DonkiHSSResponse(DonkiGenericEventTimeResponse):
     hssID: str
     linkedEvents: Optional[List[LinkEvent]]
+
+
+class CMEInput(CMECommonResponse):
+    cmeStartTime: str
+    ipsList: Optional[List[DonkiIPSResponse]] = []
+    cmeid: str
+
+
+class DonkiWSAEnlilSimulationResponse(EnlilCommonResponse):
+    simulationID: str
+    cmeInputs: List[CMEInput]

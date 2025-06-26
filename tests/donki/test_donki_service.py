@@ -303,15 +303,11 @@ class TestDonkiService:
                 {
                     "hssID": "2025-05-27T18:55:00-HSS-001",
                     "eventTime": "2025-05-27T18:55Z",
-                    "instruments": [
-                        {
-                            "displayName": "DSCOVR: PLASMAG"
-                        }
-                    ],
+                    "instruments": [{"displayName": "DSCOVR: PLASMAG"}],
                     "submissionTime": "2025-05-28T11:16Z",
                     "versionId": 1,
                     "link": "https://webtools.ccmc.gsfc.nasa.gov/DONKI/view/HSS/39130/-1",
-                    "linkedEvents": None
+                    "linkedEvents": None,
                 }
             ]
         ),
@@ -319,4 +315,47 @@ class TestDonkiService:
     def test_donki_hss(self, get_request) -> None:
         donki_service: DonkiService = DonkiService("api_key")
         result = donki_service.hss()
+        assert result
+
+    @patch.object(
+        BaseAPI,
+        "get_request",
+        return_value=json.dumps(
+            [
+                {
+                    "simulationID": "WSA-ENLIL/1328/1",
+                    "modelCompletionTime": "2011-09-19T08:54Z",
+                    "au": 2,
+                    "cmeInputs": [
+                        {
+                            "cmeStartTime": "2011-09-19T02:09Z",
+                            "latitude": 21,
+                            "longitude": -126,
+                            "speed": 355,
+                            "halfAngle": 40,
+                            "time21_5": "2011-09-19T09:38Z",
+                            "featureCode": "null",
+                            "isMostAccurate": True,
+                            "levelOfData": 0,
+                            "ipsList": [],
+                            "cmeid": "2011-09-19T02:09:00-CME-001",
+                        }
+                    ],
+                    "estimatedShockArrivalTime": None,
+                    "estimatedDuration": None,
+                    "rmin_re": None,
+                    "kp_18": None,
+                    "kp_90": None,
+                    "kp_135": None,
+                    "kp_180": None,
+                    "isEarthGB": False,
+                    "impactList": None,
+                    "link": "https://webtools.ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/1328/-1",
+                }
+            ]
+        ),
+    )
+    def test_donki_wsa_enlis_simulation(self, get_request) -> None:
+        donki_service: DonkiService = DonkiService("api_key")
+        result = donki_service.wsa_enlil_simulation()
         assert result

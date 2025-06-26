@@ -37,6 +37,7 @@ from .donki import (
     DonkiMPCResponse,
     DonkiRBEResponse,
     DonkiHSSResponse,
+    DonkiWSAEnlilSimulationResponse,
 )
 from .utils import Utils
 
@@ -66,4 +67,5 @@ __all__ = [
     "DonkiMPCResponse",
     "DonkiRBEResponse",
     "DonkiHSSResponse",
+    "DonkiWSAEnlilSimulationResponse",
 ]
