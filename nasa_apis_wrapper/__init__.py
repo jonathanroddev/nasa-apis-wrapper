@@ -1,16 +1,42 @@
-# TODO: Update docstring
 """
-Initialization file for the NASA APIs wrapper module.
+Initialization file for the nasa_apis_wrapper module.
 
-This file is used to initialize the module and make its contents available for import.
+This file initializes the package and makes its main classes and services available for import.
 
-Attributes:
-    APOD: A class representing an Astronomy Picture of the Day (APOD) object.
-    APODService: A class providing methods for retrieving APOD data.
-    BaseAPI: A class providing a basic implementation for interacting with NASA APIs.
+Classes:
+    APOD: Model representing an Astronomy Picture of the Day object.
+    APODRequest: Request model for the APOD endpoint.
+    NeoFeed: Model representing a list of near-Earth objects.
+    NeoFeedRequest: Request model for the NeoFeed endpoint.
+    NearEarthObjectItem: Model for a single near-Earth object.
+    NeoBrowse: Model for browsing near-Earth objects.
+    Pagination: Model for paginated responses.
+    BaseAPI: Base class for interacting with NASA APIs.
+    NasaAPIException: Exception class for NASA API errors.
+    GenericDonkiRequest: Base request model for DONKI API.
+    DonkiCMEResponse: Response model for CME events.
+    DonkiCMEAnalysisRequest: Request model for CME analysis.
+    CMEAnalysis: Model for CME analysis data.
+    DonkiGSTResponse: Response model for GST events.
+    DonkiIPSRequest: Request model for IPS events.
+    DonkiIPSResponse: Response model for IPS events.
+    DonkiFLRResponse: Response model for FLR events.
+    DonkiSEPResponse: Response model for SEP events.
+    DonkiMPCResponse: Response model for MPC events.
+    DonkiRBEResponse: Response model for RBE events.
+    DonkiHSSResponse: Response model for HSS events.
+    DonkiWSAEnlilSimulationResponse: Response model for WSA-Enlil simulations.
+    DonkiNotificationsRequest: Request model for notifications.
+    DonkiNotificationResponse: Response model for notifications.
+    Utils: Utility functions for the package.
+
+Services:
+    APODService: Provides methods to interact with the APOD API.
+    NeoWsService: Provides methods to interact with the Near Earth Object Web Service API.
+    DonkiService: Provides methods to interact with the DONKI API.
 
 Notes:
-    This file is automatically executed when the module is imported.
+    This file is automatically executed when the package is imported and exposes the main interfaces for NASA APIs.
 """
 
 from .apod import APODService, APOD, APODRequest

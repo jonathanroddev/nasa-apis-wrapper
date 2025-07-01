@@ -1,4 +1,23 @@
-# TODO: add docstrings
+"""
+Service class for the DONKI module.
+
+This class provides methods to interact with NASA's DONKI API, allowing retrieval of solar event data such as CME, GST, IPS, FLR, SEP, MPC, RBE, HSS, WSA-Enlil simulations, and notifications.
+
+Methods:
+    get_cme_events: Retrieve CME event data.
+    get_gst_events: Retrieve GST event data.
+    get_ips_events: Retrieve IPS event data.
+    get_flr_events: Retrieve FLR event data.
+    get_sep_events: Retrieve SEP event data.
+    get_mpc_events: Retrieve MPC event data.
+    get_rbe_events: Retrieve RBE event data.
+    get_hss_events: Retrieve HSS event data.
+    get_wsa_enlil_simulations: Retrieve WSA-Enlil simulation data.
+    get_notifications: Retrieve DONKI notifications.
+
+Notes:
+    This service acts as the main interface for querying the DONKI API endpoints.
+"""
 
 import json
 from typing import Optional, List
