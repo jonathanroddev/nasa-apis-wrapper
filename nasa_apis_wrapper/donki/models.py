@@ -25,6 +25,12 @@ class DonkiCMEAnalysisRequest(GenericDonkiRequest):
     keyword: Optional[str] = None
 
 
+class DonkiNotificationsRequest(GenericDonkiRequest):
+    type: Optional[
+        Literal["all", "FLR", "SEP", "CME", "IPS", "MPC", "GST", "RBE", "report"]
+    ] = None
+
+
 class Instrument(BaseModel):
     displayName: str
 
@@ -39,7 +45,7 @@ class Impact(BaseModel):
     arrivalTime: str
 
 
-class Enlil(BaseModel):
+class EnlilCommonResponse(BaseModel):
     modelCompletionTime: str
     au: float
     estimatedShockArrivalTime: Optional[str] = None
@@ -52,22 +58,28 @@ class Enlil(BaseModel):
     isEarthGB: bool
     link: str
     impactList: Optional[List[Impact]] = None
+
+
+class Enlil(EnlilCommonResponse):
     cmeIDs: List[str]
 
 
-class CMEAnalysis(BaseModel):
-    isMostAccurate: bool
-    time21_5: str
+class CMECommonResponse(BaseModel):
     latitude: float
     longitude: Optional[float] = None
-    halfAngle: float
     speed: float
-    type: str
+    time21_5: str
+    halfAngle: float
     featureCode: str
+    isMostAccurate: bool
+    levelOfData: Optional[int] = None
+
+
+class CMEAnalysis(CMECommonResponse):
+    type: str
     imageType: Optional[str] = None
     measurementTechnique: str
     note: str
-    levelOfData: Optional[int] = None
     tilt: Optional[str] = None
     minorHalfWidth: Optional[str] = None
     speedMeasuredAtHeight: Optional[float] = None
@@ -111,12 +123,71 @@ class DonkiGSTResponse(BaseModel):
     versionId: int
 
 
-class DonkiIPSResponse(BaseModel):
-    activityID: str
-    catalog: str
-    location: str
-    eventTime: str
-    submissionTime: str
+class DonkiGenericResponse(BaseModel):
     instruments: List[Instrument]
+    submissionTime: Optional[str]
     versionId: int
-    link: str
+    link: Optional[str]
+
+
+class DonkiGenericEventTimeResponse(DonkiGenericResponse):
+    eventTime: str
+
+
+class DonkiIPSResponse(DonkiGenericEventTimeResponse):
+    activityID: str
+    catalog: Optional[str]
+    location: str
+
+
+class DonkiGenericFullResponse(DonkiGenericEventTimeResponse):
+    linkedEvents: List[LinkEvent]
+
+
+class DonkiFLRResponse(DonkiGenericResponse):
+    flrID: str
+    catalog: str
+    beginTime: str
+    peakTime: str
+    endTime: Optional[str]
+    classType: str
+    sourceLocation: str
+    activeRegionNum: int
+    note: str
+    linkedEvents: Optional[List[LinkEvent]]
+
+
+class DonkiSEPResponse(DonkiGenericFullResponse):
+    sepID: str
+
+
+class DonkiMPCResponse(DonkiGenericFullResponse):
+    mpcID: str
+
+
+class DonkiRBEResponse(DonkiGenericFullResponse):
+    rbeID: str
+
+
+class DonkiHSSResponse(DonkiGenericEventTimeResponse):
+    hssID: str
+    linkedEvents: Optional[List[LinkEvent]]
+
+
+class CMEInput(CMECommonResponse):
+    cmeStartTime: str
+    ipsList: Optional[List[DonkiIPSResponse]] = []
+    cmeid: str
+
+
+class DonkiWSAEnlilSimulationResponse(EnlilCommonResponse):
+    simulationID: str
+    cmeInputs: List[CMEInput]
+
+
+class DonkiNotificationResponse(BaseModel):
+    messageType: Literal["FLR", "SEP", "CME", "IPS", "MPC", "GST", "RBE", "Report"]
+    messageID: str
+    messageURL: str
+    messageIssueTime: str
+    messageBody: str

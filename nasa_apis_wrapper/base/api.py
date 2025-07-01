@@ -10,6 +10,7 @@ Notes:
     It contains the `BaseAPI` and `NasaAPIException` classes,
         which are used as a foundation for the other packages in the `nasa_apis_wrapper` package.
 """
+
 from typing import Optional
 
 from requests import Session

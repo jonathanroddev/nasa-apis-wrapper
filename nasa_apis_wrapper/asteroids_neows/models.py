@@ -24,6 +24,7 @@ class Pagination(BaseModel):
     Notes:
         This class is used to paginate the results of a query.
     """
+
     page: Optional[int] = None
     size: Optional[int] = None
 
@@ -37,6 +38,7 @@ class Links(BaseModel):
         previous (Optional[str]): The URL of the previous page of results.
         self (Optional[str]): The URL of the current page of results.
     """
+
     next: Optional[str] = None
     previous: Optional[str] = None
     self: Optional[str] = None
@@ -55,6 +57,7 @@ class Page(BaseModel):
     Notes:
         This class is used to represent a page of results.
     """
+
     size: int
     total_elements: int
     total_pages: int
@@ -106,6 +109,7 @@ class RelativeVelocity(BaseModel):
         kilometers_per_hour (str): The relative velocity in kilometers per hour.
         miles_per_hour (str): The relative velocity in miles per hour.
     """
+
     kilometers_per_second: str
     kilometers_per_hour: str
     miles_per_hour: str
@@ -121,6 +125,7 @@ class MissDistance(BaseModel):
         kilometers (str): The miss distance in kilometers.
         miles (str): The miss distance in miles.
     """
+
     astronomical: str
     lunar: str
     kilometers: str
@@ -139,6 +144,7 @@ class CloseApproachItem(BaseModel):
         relative_velocity (RelativeVelocity): The relative velocity of the asteroid.
         miss_distance (MissDistance): The miss distance of the asteroid.
     """
+
     close_approach_date: str
     close_approach_date_full: str
     epoch_date_close_approach: int
@@ -166,6 +172,7 @@ class NearEarthObjectItem(BaseModel):
         estimated_diameter (EstimatedDiameter):
             The estimated diameter of the near-Earth object.
     """
+
     links: Links
     id: str
     neo_reference_id: str
@@ -193,6 +200,7 @@ class NearEarthObjects(BaseModel):
         This class represents a feed of near-Earth objects,
             where each object is a NearEarthObjectItem.
     """
+
     model_config = ConfigDict(extra="allow")
 
     @model_validator(mode="before")
@@ -215,23 +223,26 @@ class NearEarthObjects(BaseModel):
             try:
                 dt.strptime(key, "%Y-%m-%d")
             except ValueError as ve:
-                raise ValueError(f"The key '{key}' has not the format 'YYYY-MM-DD'") from ve
+                raise ValueError(
+                    f"The key '{key}' has not the format 'YYYY-MM-DD'"
+                ) from ve
             validated[key] = value
         return validated
 
 
 class NeoBrowse(BaseModel):
     """
-   Represents a NeoWs browse object.
+    Represents a NeoWs browse object.
 
-   Attributes:
-       links (Links): The links for the browse object.
-       page (Page): The page object.
-       near_earth_objects (List[NearEarthObjectItem]): The list of near-Earth objects.
+    Attributes:
+        links (Links): The links for the browse object.
+        page (Page): The page object.
+        near_earth_objects (List[NearEarthObjectItem]): The list of near-Earth objects.
 
-   Notes:
-       This class is used to represent the results of a NeoWs browse query.
-   """
+    Notes:
+        This class is used to represent the results of a NeoWs browse query.
+    """
+
     links: Links
     page: Page
     near_earth_objects: List[NearEarthObjectItem]
@@ -251,6 +262,7 @@ class NeoFeed(BaseModel):
             where each asteroid is a NearEarthObjectItem.
         The feed is filtered by the closest approach date to Earth.
     """
+
     links: Links
     element_count: int
     near_earth_objects: NearEarthObjects
@@ -264,5 +276,6 @@ class NeoFeedRequest(BaseModel):
         start_date (Optional[datetime.date]): Starting date for asteroid search.
         end_date (Optional[datetime.date]): Ending date for asteroid search.
     """
+
     start_date: Optional[datetime.date] = None
     end_date: Optional[datetime.date] = None
