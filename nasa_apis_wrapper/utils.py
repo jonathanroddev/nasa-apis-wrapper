@@ -5,8 +5,7 @@ This module contains a collection of utility functions
     that can be used throughout the NASA APIs wrapper.
 """
 
-import datetime
-from typing import Any
+from pydantic import BaseModel
 
 
 class Utils:
@@ -18,16 +17,14 @@ class Utils:
     """
 
     @staticmethod
-    def obj_dict(obj: Any):
+    def obj_dict(obj: BaseModel) -> dict:
         """
-        Converts an object into a dictionary.
+        Converts a Pydantic model into a query-params dictionary, excluding None fields.
 
         Args:
-            obj: The object to be converted into a dictionary.
+            obj: The Pydantic model to be converted.
 
         Returns:
-            A dictionary representation of the object.
+            A dictionary with non-None fields only.
         """
-        if isinstance(obj, datetime.date):
-            return obj.strftime("%Y/%m/%d")
-        return obj.__dict__
+        return obj.model_dump(exclude_none=True)
