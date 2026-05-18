@@ -16,15 +16,17 @@ class NasaAPIException(Exception):
 class BaseAPI:
     """Base class for all NASA API services. Manages the HTTP session and API key."""
 
-    def __init__(self, api_key: str):
+    def __init__(self, api_key: Optional[str] = None):
         """
         Args:
-            api_key: NASA API key. Get one at https://api.nasa.gov/.
+            api_key: NASA API key. Required for most APIs; get one at https://api.nasa.gov/.
+                     APIs that do not require authentication (e.g. EONET) can omit this.
         """
         self.host: str = "https://api.nasa.gov"
         self.session: Session = Session()
         self.session.headers.update({"Accept": "application/json"})
-        self.session.params = {"api_key": api_key}
+        if api_key:
+            self.session.params = {"api_key": api_key}
 
     def get_request(self, endpoint: str, params: Optional[dict] = None) -> Any:
         """
