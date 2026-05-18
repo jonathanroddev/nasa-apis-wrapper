@@ -67,7 +67,6 @@ from .donki import (
     DonkiNotificationsRequest,
     DonkiNotificationResponse,
 )
-from .utils import Utils
 
 __all__ = [
     "APODService",
@@ -81,7 +80,6 @@ __all__ = [
     "Pagination",
     "BaseAPI",
     "NasaAPIException",
-    "Utils",
     "DonkiService",
     "GenericDonkiRequest",
     "DonkiCMEResponse",

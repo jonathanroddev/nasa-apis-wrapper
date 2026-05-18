@@ -1,5 +1,3 @@
-import json
-
 import pytest
 import responses
 
@@ -18,8 +16,7 @@ class TestBaseAPI:
         )
         result = base_api.get_request("/test")
         assert result
-        assert "result" in result
-        assert json.loads(result)["result"] == "success"
+        assert result["result"] == "success"
 
     @responses.activate
     def test_get_request_should_raise_custom_exception(self) -> None:
@@ -31,7 +28,7 @@ class TestBaseAPI:
             status=401,
         )
         with pytest.raises(NasaAPIException) as ne:
-            result = base_api.get_request("/test")
+            base_api.get_request("/test")
         assert str(ne.value) == '{"result": "Unauthorized"}'
 
     @responses.activate
@@ -45,8 +42,7 @@ class TestBaseAPI:
         )
         result = base_api.post_request("/test", {"test": "test"})
         assert result
-        assert "result" in result
-        assert json.loads(result)["result"] == "success"
+        assert result["result"] == "success"
 
     @responses.activate
     def test_post_request_should_raise_custom_exception(self) -> None:
@@ -58,5 +54,5 @@ class TestBaseAPI:
             status=401,
         )
         with pytest.raises(NasaAPIException) as ne:
-            result = base_api.post_request("/test", {"test": "test"})
+            base_api.post_request("/test", {"test": "test"})
         assert str(ne.value) == '{"result": "Unauthorized"}'

@@ -1,28 +1,12 @@
-"""
-Provides the base API class for interacting with NASA APIs.
-
-Classes:
-    BaseAPI: Provides a basic implementation for interacting with NASA APIs.
-    NasaAPIException: Represents an exception that occurs when interacting with NASA APIs.
-
-Notes:
-    This module provides the base API class for interacting with NASA APIs.
-    It contains the `BaseAPI` and `NasaAPIException` classes,
-        which are used as a foundation for the other packages in the `nasa_apis_wrapper` package.
-"""
-
-from typing import Optional
+from typing import Any, Optional, Type, TypeVar
 
 from requests import Session
 
+T = TypeVar('T')
+
 
 class NasaAPIException(Exception):
-    """
-    Represents an exception that occurs when interacting with NASA APIs.
-
-    Attributes:
-        message (str): The error message.
-    """
+    """Raised when a NASA API request fails (non-2xx response)."""
 
     def __init__(self, message: str):
         self.message = message
@@ -30,73 +14,56 @@ class NasaAPIException(Exception):
 
 
 class BaseAPI:
-    """
-    Provides a basic implementation for interacting with NASA APIs.
-
-    Attributes:
-        host (str): The base URL for the NASA API.
-        session (Session): A requests Session object for making API requests.
-
-    Methods:
-        __init__: Initializes the BaseAPI object with an API key.
-        get_request: Sends a GET request to the NASA API.
-        post_request: Sends a POST request to the NASA API.
-    """
+    """Base class for all NASA API services. Manages the HTTP session and API key."""
 
     def __init__(self, api_key: str):
         """
-        Initializes the BaseAPI object with an API key.
-
         Args:
-            api_key (str): The API key for authenticating with the NASA API.
-
-        Notes:
-            Sets the host URL and initializes a requests Session object with the API key.
+            api_key: NASA API key. Get one at https://api.nasa.gov/.
         """
         self.host: str = "https://api.nasa.gov"
         self.session: Session = Session()
-        headers: dict = {"Accept": "application/json"}
-        self.session.headers.update(headers)
+        self.session.headers.update({"Accept": "application/json"})
         self.session.params = {"api_key": api_key}
 
-    def get_request(self, endpoint: str, params: Optional[dict] = None):
+    def get_request(self, endpoint: str, params: Optional[dict] = None) -> Any:
         """
-        Sends a GET request to the NASA API.
+        Send a GET request and return the parsed JSON response.
 
         Args:
-            endpoint (str): The endpoint for the API request.
-            params (Optional[dict]): Additional query parameters for the request.
+            endpoint: API path relative to the host (e.g. ``/planetary/apod``).
+            params: Optional query parameters.
 
-        Returns:
-            Response: The response from the API request.
-
-        Notes:
-            Constructs the full URL for the request and sends a
-            GET request using the requests Session object.
+        Raises:
+            NasaAPIException: If the response status code is not 2xx.
         """
-        url: str = f"{self.host}{endpoint}"
+        url = f"{self.host}{endpoint}"
         req = self.session.get(url, params=params)
-        if req.status_code not in list(range(200, 300)):
+        if req.status_code not in range(200, 300):
             raise NasaAPIException(req.text)
-        return req.text
+        return req.json()
 
-    def post_request(self, endpoint: str, json_data: dict):
+    def post_request(self, endpoint: str, json_data: dict) -> Any:
         """
-        Sends a POST request to the NASA API.
+        Send a POST request and return the parsed JSON response.
 
         Args:
-            endpoint (str): The endpoint for the API request.
-            json_data (dict): The JSON data to be sent in the request body.
+            endpoint: API path relative to the host.
+            json_data: Request body serialized as JSON.
 
-        Returns:
-            Response: The response from the API request.
-
-        Notes:
-            Constructs the full URL for the request and sends a
-            POST request using the requests Session object.
+        Raises:
+            NasaAPIException: If the response status code is not 2xx.
         """
-        url: str = f"{self.host}{endpoint}"
+        url = f"{self.host}{endpoint}"
         req = self.session.post(url, json=json_data)
-        if req.status_code not in list(range(200, 300)):
+        if req.status_code not in range(200, 300):
             raise NasaAPIException(req.text)
-        return req.text
+        return req.json()
+
+    def _parse_list(self, endpoint: str, model: Type[T], params: Optional[dict] = None) -> list[T]:
+        """Fetch a list endpoint and deserialize each item into *model*."""
+        return [model(**item) for item in self.get_request(endpoint, params)]
+
+    def _parse_one(self, endpoint: str, model: Type[T], params: Optional[dict] = None) -> T:
+        """Fetch a single-object endpoint and deserialize the response into *model*."""
+        return model(**self.get_request(endpoint, params))
