@@ -1,25 +1,30 @@
-[tool.poetry]
+[project]
 name = "nasa-apis-wrapper"
 version = "0.1.0"
 description = "Python wrapper for NASA APIs"
-authors = ["Jonathan Rodríguez <jonathanroddev@gmail.com>"]
+authors = [
+    {name = "Jonathan Rodríguez", email = "jonathanroddev@gmail.com"}
+]
 readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2.9",
+    "requests>=2.32",
+]
 
-[tool.poetry.dependencies]
-python = "^3.12"
-pydantic = "^2.9"
-requests = "^2.32"
-
-[tool.poetry.group.dev.dependencies]
-devtools = "^0.12.2"
-pytest = "^8.3.3"
-pytest-cov = "^6.0.0"
-responses = "^0.25.3"
-black = "^25.1.0"
-
-[tool.poetry.scripts]
+[project.scripts]
 local = "local:main"
 
+[dependency-groups]
+dev = [
+    "devtools>=0.12.2",
+    "pytest>=8.3.3",
+    "pytest-cov>=6.0.0",
+    "responses>=0.25.3",
+    "black>=25.1.0",
+]
+
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
