@@ -21,3 +21,27 @@ from .models import (
     EONETLayersResponse,
 )
 from .service import EONETService
+
+__all__ = [
+    "EONETService",
+    "EONETEvent",
+    "EONETEventsRequest",
+    "EONETEventsResponse",
+    "EONETGeoJSONResponse",
+    "GeoJSONFeature",
+    "GeoJSONFeatureProperties",
+    "GeoJSONGeometry",
+    "EventCategoryRef",
+    "EventSourceRef",
+    "EventGeometry",
+    "EONETCategory",
+    "EONETCategoriesResponse",
+    "EONETCategoryEventsResponse",
+    "EONETSource",
+    "EONETSourcesResponse",
+    "EONETMagnitude",
+    "EONETMagnitudesResponse",
+    "EONETLayer",
+    "EONETLayerCategory",
+    "EONETLayersResponse",
+]

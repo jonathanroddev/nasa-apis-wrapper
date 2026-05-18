@@ -67,6 +67,16 @@ from .donki import (
     DonkiNotificationsRequest,
     DonkiNotificationResponse,
 )
+from .epic import (
+    EPICService,
+    EPICCollection,
+    EPICImageFormat,
+    EPICImage,
+    EPICDateItem,
+    Coordinates2D,
+    Position3D,
+    AttitudeQuaternions,
+)
 from .eonet import (
     EONETService,
     EONETEvent,
@@ -119,6 +129,14 @@ __all__ = [
     "DonkiWSAEnlilSimulationResponse",
     "DonkiNotificationsRequest",
     "DonkiNotificationResponse",
+    "EPICService",
+    "EPICCollection",
+    "EPICImageFormat",
+    "EPICImage",
+    "EPICDateItem",
+    "Coordinates2D",
+    "Position3D",
+    "AttitudeQuaternions",
     "EONETService",
     "EONETEvent",
     "EONETEventsRequest",
