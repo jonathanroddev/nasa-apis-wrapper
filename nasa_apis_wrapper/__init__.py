@@ -67,6 +67,7 @@ from .donki import (
     DonkiNotificationsRequest,
     DonkiNotificationResponse,
 )
+from .exoplanet import ExoplanetService, ExoplanetRecord, ExoplanetTable, DiscoveryMethod
 from .epic import (
     EPICService,
     EPICCollection,
@@ -129,6 +130,10 @@ __all__ = [
     "DonkiWSAEnlilSimulationResponse",
     "DonkiNotificationsRequest",
     "DonkiNotificationResponse",
+    "ExoplanetService",
+    "ExoplanetRecord",
+    "ExoplanetTable",
+    "DiscoveryMethod",
     "EPICService",
     "EPICCollection",
     "EPICImageFormat",
