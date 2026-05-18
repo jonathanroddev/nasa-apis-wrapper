@@ -1,3 +1,7 @@
+# nasa-apis-wrapper
+
+> **Disclaimer:** This is an unofficial, community-maintained Python wrapper. It is not affiliated with, endorsed by, or in any way connected to NASA.
+
 ## Official documentation
 
 [NASA APIs](https://api.nasa.gov/)
@@ -122,8 +126,8 @@ api_key = "<YOUR_API_KEY>"
 ## Helpful commands
 
 ```console
- poetry run pytest
- poetry run pytest --cov
- poetry run pytest --cov --cov-report term-missing
- black <directory>
+ uv run pytest
+ uv run pytest --cov
+ uv run pytest --cov --cov-report term-missing
+ uv run black <directory>
 ```
