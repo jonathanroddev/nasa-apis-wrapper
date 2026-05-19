@@ -69,6 +69,17 @@ from .donki import (
 )
 from .exoplanet import ExoplanetService, ExoplanetRecord, ExoplanetTable, DiscoveryMethod
 from .gibs import GIBSService, GIBSDomains, GIBSProjection, GIBSTileFormat, GIBSWMSFormat, GIBSDataType
+from .insight import (
+    InsightService,
+    InsightWeatherResponse,
+    SolData,
+    SensorStats,
+    WindDirectionData,
+    WindPoint,
+    SolValidity,
+    SensorValidity,
+    ValidityChecks,
+)
 from .epic import (
     EPICService,
     EPICCollection,
@@ -141,6 +152,15 @@ __all__ = [
     "GIBSTileFormat",
     "GIBSWMSFormat",
     "GIBSDataType",
+    "InsightService",
+    "InsightWeatherResponse",
+    "SolData",
+    "SensorStats",
+    "WindDirectionData",
+    "WindPoint",
+    "SolValidity",
+    "SensorValidity",
+    "ValidityChecks",
     "EPICService",
     "EPICCollection",
     "EPICImageFormat",
