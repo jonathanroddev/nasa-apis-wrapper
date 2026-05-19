@@ -68,6 +68,7 @@ from .donki import (
     DonkiNotificationResponse,
 )
 from .exoplanet import ExoplanetService, ExoplanetRecord, ExoplanetTable, DiscoveryMethod
+from .gibs import GIBSService, GIBSDomains, GIBSProjection, GIBSTileFormat, GIBSWMSFormat, GIBSDataType
 from .epic import (
     EPICService,
     EPICCollection,
@@ -134,6 +135,12 @@ __all__ = [
     "ExoplanetRecord",
     "ExoplanetTable",
     "DiscoveryMethod",
+    "GIBSService",
+    "GIBSDomains",
+    "GIBSProjection",
+    "GIBSTileFormat",
+    "GIBSWMSFormat",
+    "GIBSDataType",
     "EPICService",
     "EPICCollection",
     "EPICImageFormat",
