@@ -69,6 +69,22 @@ from .donki import (
 )
 from .exoplanet import ExoplanetService, ExoplanetRecord, ExoplanetTable, DiscoveryMethod
 from .gibs import GIBSService, GIBSDomains, GIBSProjection, GIBSTileFormat, GIBSWMSFormat, GIBSDataType
+from .image_library import (
+    ImageLibraryService,
+    MediaType,
+    ImageLibrarySearchRequest,
+    MediaData,
+    SearchItemLink,
+    SearchItem,
+    CollectionMetadata,
+    CollectionLink,
+    SearchCollection,
+    SearchResponse,
+    AssetItem,
+    AssetCollection,
+    AssetResponse,
+    LocationResponse,
+)
 from .insight import (
     InsightService,
     InsightWeatherResponse,
@@ -152,6 +168,20 @@ __all__ = [
     "GIBSTileFormat",
     "GIBSWMSFormat",
     "GIBSDataType",
+    "ImageLibraryService",
+    "MediaType",
+    "ImageLibrarySearchRequest",
+    "MediaData",
+    "SearchItemLink",
+    "SearchItem",
+    "CollectionMetadata",
+    "CollectionLink",
+    "SearchCollection",
+    "SearchResponse",
+    "AssetItem",
+    "AssetCollection",
+    "AssetResponse",
+    "LocationResponse",
     "InsightService",
     "InsightWeatherResponse",
     "SolData",
