@@ -1,22 +1,27 @@
-# TODO: add docstrings
-
 import datetime
-from typing import Optional, List, Literal
+from typing import List, Literal, Optional
 
 from pydantic import BaseModel
 
 
+# ---------------------------------------------------------------------------
+# Request models
+# ---------------------------------------------------------------------------
+
 class GenericDonkiRequest(BaseModel):
+    """Base request with optional date range, shared by most DONKI endpoints."""
     startDate: Optional[datetime.date] = None
     endDate: Optional[datetime.date] = None
 
 
 class DonkiIPSRequest(GenericDonkiRequest):
+    """Request model for the Interplanetary Shock (IPS) endpoint."""
     location: Optional[Literal["Earth", "MESSENGER", "STEREO A", "STEREO B"]] = None
-    catalog: Optional[Literal["SWRC_CATALOG", "WINSLOW_MESSENGER_ICME_CATALOG"]] = None
+    catalog: Optional[Literal["M2M_CATALOG", "WINSLOW_MESSENGER_ICME_CATALOG"]] = None
 
 
 class DonkiCMEAnalysisRequest(GenericDonkiRequest):
+    """Request model for the CME Analysis endpoint."""
     mostAccurateOnly: Optional[bool] = None
     completeEntryOnly: Optional[bool] = None
     speed: Optional[int] = None
@@ -26,10 +31,15 @@ class DonkiCMEAnalysisRequest(GenericDonkiRequest):
 
 
 class DonkiNotificationsRequest(GenericDonkiRequest):
+    """Request model for the Notifications endpoint."""
     type: Optional[
         Literal["all", "FLR", "SEP", "CME", "IPS", "MPC", "GST", "RBE", "report"]
     ] = None
 
+
+# ---------------------------------------------------------------------------
+# Shared sub-models
+# ---------------------------------------------------------------------------
 
 class Instrument(BaseModel):
     displayName: str
@@ -44,6 +54,10 @@ class Impact(BaseModel):
     location: str
     arrivalTime: str
 
+
+# ---------------------------------------------------------------------------
+# Enlil / WSA-Enlil
+# ---------------------------------------------------------------------------
 
 class EnlilCommonResponse(BaseModel):
     modelCompletionTime: str
@@ -63,6 +77,10 @@ class EnlilCommonResponse(BaseModel):
 class Enlil(EnlilCommonResponse):
     cmeIDs: List[str]
 
+
+# ---------------------------------------------------------------------------
+# CME
+# ---------------------------------------------------------------------------
 
 class CMECommonResponse(BaseModel):
     latitude: float
@@ -103,9 +121,13 @@ class DonkiCMEResponse(BaseModel):
     submissionTime: str
     versionId: int
     link: str
-    cmeAnalyses: List[CMEAnalysis]
+    cmeAnalyses: List[CMEAnalysis] = []
     linkedEvents: Optional[List[LinkEvent]] = None
 
+
+# ---------------------------------------------------------------------------
+# GST
+# ---------------------------------------------------------------------------
 
 class KpIndexItem(BaseModel):
     observedTime: str
@@ -118,30 +140,43 @@ class DonkiGSTResponse(BaseModel):
     startTime: str
     allKpIndex: List[KpIndexItem]
     link: str
-    linkedEvents: List[LinkEvent]
+    linkedEvents: Optional[List[LinkEvent]] = None
     submissionTime: str
     versionId: int
 
 
+# ---------------------------------------------------------------------------
+# Shared base response models
+# ---------------------------------------------------------------------------
+
 class DonkiGenericResponse(BaseModel):
+    """Base response shared by IPS, SEP, MPC, RBE, HSS."""
     instruments: List[Instrument]
-    submissionTime: Optional[str]
+    submissionTime: Optional[str] = None
     versionId: int
-    link: Optional[str]
+    link: Optional[str] = None
 
 
 class DonkiGenericEventTimeResponse(DonkiGenericResponse):
     eventTime: str
 
 
+# ---------------------------------------------------------------------------
+# IPS
+# ---------------------------------------------------------------------------
+
 class DonkiIPSResponse(DonkiGenericEventTimeResponse):
     activityID: str
-    catalog: Optional[str]
+    catalog: Optional[str] = None
     location: str
 
 
+# ---------------------------------------------------------------------------
+# FLR, SEP, MPC, RBE
+# ---------------------------------------------------------------------------
+
 class DonkiGenericFullResponse(DonkiGenericEventTimeResponse):
-    linkedEvents: List[LinkEvent]
+    linkedEvents: Optional[List[LinkEvent]] = None
 
 
 class DonkiFLRResponse(DonkiGenericResponse):
@@ -149,12 +184,12 @@ class DonkiFLRResponse(DonkiGenericResponse):
     catalog: str
     beginTime: str
     peakTime: str
-    endTime: Optional[str]
+    endTime: Optional[str] = None
     classType: str
     sourceLocation: str
-    activeRegionNum: int
+    activeRegionNum: Optional[int] = None
     note: str
-    linkedEvents: Optional[List[LinkEvent]]
+    linkedEvents: Optional[List[LinkEvent]] = None
 
 
 class DonkiSEPResponse(DonkiGenericFullResponse):
@@ -169,10 +204,18 @@ class DonkiRBEResponse(DonkiGenericFullResponse):
     rbeID: str
 
 
+# ---------------------------------------------------------------------------
+# HSS
+# ---------------------------------------------------------------------------
+
 class DonkiHSSResponse(DonkiGenericEventTimeResponse):
     hssID: str
-    linkedEvents: Optional[List[LinkEvent]]
+    linkedEvents: Optional[List[LinkEvent]] = None
 
+
+# ---------------------------------------------------------------------------
+# WSA-Enlil simulation
+# ---------------------------------------------------------------------------
 
 class CMEInput(CMECommonResponse):
     cmeStartTime: str
@@ -185,8 +228,12 @@ class DonkiWSAEnlilSimulationResponse(EnlilCommonResponse):
     cmeInputs: List[CMEInput]
 
 
+# ---------------------------------------------------------------------------
+# Notifications
+# ---------------------------------------------------------------------------
+
 class DonkiNotificationResponse(BaseModel):
-    messageType: Literal["FLR", "SEP", "CME", "IPS", "MPC", "GST", "RBE", "Report"]
+    messageType: str
     messageID: str
     messageURL: str
     messageIssueTime: str

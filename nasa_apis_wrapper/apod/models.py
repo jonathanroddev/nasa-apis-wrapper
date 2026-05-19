@@ -33,6 +33,7 @@ class APOD(BaseModel):
     hdurl: Optional[str] = None
     media_type: str
     service_version: Optional[str] = None
+    thumbnail_url: Optional[str] = None  # present when media_type="video" and thumbs=True
     title: str
     url: str
 

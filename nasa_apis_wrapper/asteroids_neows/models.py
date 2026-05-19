@@ -279,3 +279,4 @@ class NeoFeedRequest(BaseModel):
 
     start_date: Optional[datetime.date] = None
     end_date: Optional[datetime.date] = None
+    detailed: Optional[bool] = None
