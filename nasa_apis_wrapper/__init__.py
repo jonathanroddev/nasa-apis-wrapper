@@ -171,6 +171,7 @@ from .epic import (
     Position3D,
     AttitudeQuaternions,
 )
+from .tle import TLEService, TLERecord, TLESearchParameters, TLESearchResponse
 from .techtransfer import (
     TechTransferService,
     PatentResult,
@@ -392,4 +393,8 @@ __all__ = [
     "SpinoffResponse",
     "TechTransferItem",
     "TechTransferSearchResponse",
+    "TLEService",
+    "TLERecord",
+    "TLESearchParameters",
+    "TLESearchResponse",
 ]
