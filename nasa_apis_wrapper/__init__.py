@@ -171,6 +171,17 @@ from .epic import (
     Position3D,
     AttitudeQuaternions,
 )
+from .techtransfer import (
+    TechTransferService,
+    PatentResult,
+    PatentResponse,
+    SoftwareResult,
+    SoftwareResponse,
+    SpinoffResult,
+    SpinoffResponse,
+    TechTransferItem,
+    TechTransferSearchResponse,
+)
 from .techport import (
     TechportService,
     TechportProjectRef,
@@ -372,4 +383,13 @@ __all__ = [
     "TechportOrganizationsResponse",
     "TechportEnumValue",
     "TechportEnumsResponse",
+    "TechTransferService",
+    "PatentResult",
+    "PatentResponse",
+    "SoftwareResult",
+    "SoftwareResponse",
+    "SpinoffResult",
+    "SpinoffResponse",
+    "TechTransferItem",
+    "TechTransferSearchResponse",
 ]
