@@ -118,7 +118,7 @@ class SentrySummaryItem(BaseModel):
     n_imp: int                      # number of virtual impactors
     ps_cum: str                     # cumulative Palermo Scale
     ps_max: str                     # maximum Palermo Scale
-    ts_max: str                     # maximum Torino Scale
+    ts_max: Optional[str] = None    # maximum Torino Scale (None when < 1)
     range: str                      # year range (e.g. "2028-2101")
     v_inf: str                      # km/s
     last_obs: str
@@ -138,20 +138,26 @@ class ScoutSummaryItem(BaseModel):
     nObs: int
     arc: str
     H: str
-    rating: str
-    moid: str
-    neoScore: str
-    phaScore: str
-    geocentricScore: str
-    ieoScore: str
-    lastRun: str
     ra: str
     dec: str
     Vmag: str
     unc: str
+    moid: str
+    lastRun: str
+    neoScore: int = 0
+    phaScore: int = 0
+    geocentricScore: int = 0
+    ieoScore: int = 0
+    tisserandScore: Optional[int] = None
+    neo1kmScore: Optional[int] = None
+    rating: Optional[Any] = None        # str when set, int 0 when unrated
     rmsN: Optional[str] = None
     caDist: Optional[str] = None
     vInf: Optional[str] = None
+    rate: Optional[str] = None
+    elong: Optional[str] = None
+    uncP1: Optional[str] = None
+    tEphem: Optional[str] = None
 
 
 # ---------------------------------------------------------------------------
@@ -211,7 +217,7 @@ class JDCalendarResponse(BaseModel):
     """Response from the Julian Date / Calendar Date conversion API."""
     model_config = ConfigDict(extra="ignore")
 
-    jd: str
+    jd: Optional[str] = None
     cd: Optional[str] = None
     year: Optional[int] = None
     month: Optional[str] = None

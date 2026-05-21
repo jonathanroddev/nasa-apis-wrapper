@@ -127,36 +127,6 @@ class OSDRService(BaseAPI):
     # Geode-PY API — Missions
     # ------------------------------------------------------------------
 
-    def missions(self) -> List[str]:
-        """
-        List all mission identifiers in the OSDR relational database.
-
-        Returns:
-            List of mission identifier strings (e.g. ``["STS-135", "SpaceX-4", ...]``).
-
-        Raises:
-            NasaAPIException: If the request fails.
-        """
-        data = self.get_request("/geode-py/ws/api/missions/")
-        return [item["mission"].rstrip("/").split("/")[-1] for item in data["data"]]
-
-    def mission(self, identifier: str) -> OSDRMission:
-        """
-        Retrieve details for a specific mission.
-
-        Args:
-            identifier: Mission identifier (e.g. ``"STS-135"``, ``"SpaceX-4"``).
-                Use :meth:`missions` to list all available identifiers.
-
-        Returns:
-            OSDRMission with dates and aliases.
-
-        Raises:
-            NasaAPIException: If the mission is not found.
-        """
-        data = self.get_request(f"/geode-py/ws/api/mission/{identifier}")
-        return OSDRMission(**data)
-
     def experiments(self) -> List[str]:
         """
         List all experiment identifiers in the OSDR relational database.

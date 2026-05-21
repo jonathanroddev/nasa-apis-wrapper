@@ -59,23 +59,23 @@ class OSDRStudySource(BaseModel):
 
     model_config = ConfigDict(populate_by_name=True, extra="ignore")
 
-    accession: str = Field(alias="Accession")
-    study_title: str = Field(alias="Study Title")
-    study_description: str = Field(alias="Study Description")
-    organism: str
-    project_type: str = Field(alias="Project Type")
-    experiment_platform: str = Field(alias="Experiment Platform")
-    space_program: str = Field(alias="Space Program")
-    managing_nasa_center: str = Field(alias="Managing NASA Center")
-    study_public_release_date: float = Field(alias="Study Public Release Date")
-    thumbnail: str
+    accession: Optional[str] = Field(None, alias="Accession")
+    study_title: Optional[str] = Field(None, alias="Study Title")
+    study_description: Optional[str] = Field(None, alias="Study Description")
+    organism: Optional[Any] = None     # str or List[str] depending on study
+    project_type: Optional[str] = Field(None, alias="Project Type")
+    experiment_platform: Optional[str] = Field(None, alias="Experiment Platform")
+    space_program: Optional[str] = Field(None, alias="Space Program")
+    managing_nasa_center: Optional[str] = Field(None, alias="Managing NASA Center")
+    study_public_release_date: Optional[float] = Field(None, alias="Study Public Release Date")
+    thumbnail: Optional[str] = None
     mission: OSDRStudyMission = Field(alias="Mission")
     study_person: OSDRStudyPerson = Field(alias="Study Person")
     flight_program: Optional[str] = Field(None, alias="Flight Program")
     esa_acronym: Optional[str] = Field(None, alias="ESA Acronym")
     data_source_accession: Optional[str] = Field(None, alias="Data Source Accession")
     material_type: Optional[str] = Field(None, alias="Material Type")
-    factor_value: Optional[str] = Field(None, alias="Factor Value")
+    factor_value: Optional[Any] = Field(None, alias="Factor Value")  # str or List[str]
     links: List[str] = []
 
 

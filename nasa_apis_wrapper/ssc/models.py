@@ -1,7 +1,7 @@
 import datetime
 from typing import Any, Dict, List, Literal, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 CoordinateSystem = Literal["Geo", "Gm", "Gse", "Gsm", "Sm", "GeiTod", "GeiJ2000"]
@@ -15,15 +15,15 @@ Hemisphere = Literal["North", "South"]
 
 class Observatory(BaseModel):
     """An observable satellite or spacecraft in the SSC catalogue."""
+    model_config = ConfigDict(extra="ignore")
+
     Id: str
     Name: str
-    Resolution: int                     # cadence in seconds
-    StartTime: datetime.datetime
-    EndTime: datetime.datetime
-    ResourceId: str                     # SPASE URI
+    Resolution: Optional[int] = None            # cadence in seconds
+    StartTime: Optional[datetime.datetime] = None
+    EndTime: Optional[datetime.datetime] = None
+    ResourceId: Optional[str] = None            # SPASE URI
     GroupId: List[str] = []
-    Geometry: Optional[str] = None
-    TrajectoryGeometry: Optional[str] = None
 
 
 

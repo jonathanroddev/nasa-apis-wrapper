@@ -91,11 +91,11 @@ SCOUT_RESPONSE = {
             "moid": "0.0012",
             "caDist": "0.0024",
             "vInf": "4.5",
-            "phaScore": "0",
-            "neoScore": "99",
-            "geocentricScore": "0",
-            "ieoScore": "0",
-            "tisserandScore": "0",
+            "phaScore": 0,
+            "neoScore": 99,
+            "geocentricScore": 0,
+            "ieoScore": 0,
+            "tisserandScore": 0,
             "lastRun": "2022-01-15 12:00:00",
             "ra": "123.4",
             "dec": "-5.6",
@@ -330,7 +330,7 @@ class TestCNEOSService:
         result = CNEOSService().scout_summary()
         assert len(result) == 1
         assert result[0].objectName == "P10vY9r"
-        assert result[0].neoScore == "99"
+        assert result[0].neoScore == 99
 
     # ------------------------------------------------------------------
     # NHATS

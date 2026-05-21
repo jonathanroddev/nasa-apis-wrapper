@@ -1,7 +1,29 @@
 import datetime
-from typing import List, Optional, Union
+from typing import Any, List, Optional, Union
 
 from nasa_apis_wrapper.base import BaseAPI
+
+
+def _unwrap(obj: Any) -> Any:
+    """
+    Recursively unwrap Java/Jackson JSON-LD typed objects.
+
+    The SSC REST API serialises every complex type as a two-element list:
+    ``["fully.qualified.ClassName", value]``. This helper strips the type
+    prefix so the result can be fed directly into Pydantic models.
+    """
+    if (
+        isinstance(obj, list)
+        and len(obj) == 2
+        and isinstance(obj[0], str)
+        and "." in obj[0]        # heuristic: dotted class name
+    ):
+        return _unwrap(obj[1])
+    if isinstance(obj, list):
+        return [_unwrap(item) for item in obj]
+    if isinstance(obj, dict):
+        return {k: _unwrap(v) for k, v in obj.items()}
+    return obj
 from .models import (
     CoordinateSystem,
     Observatory,
@@ -67,8 +89,11 @@ class SSCService(BaseAPI):
             print(iss.EndTime)      # latest available data
         """
         params = {"id": id} if id else None
-        data = self.get_request("/observatories", params=params)
-        return [Observatory(**obs) for obs in data.get("Observatory", [])]
+        raw = self.get_request("/observatories", params=params)
+        # SSC serialises as [TypeString, {data}] at every level — unwrap all
+        payload = _unwrap(raw)
+        obs_list = payload.get("Observatory", []) if isinstance(payload, dict) else []
+        return [Observatory(**obs) for obs in obs_list]
 
     def ground_stations(self) -> List[GroundStation]:
         """
@@ -81,8 +106,10 @@ class SSCService(BaseAPI):
         Raises:
             NasaAPIException: If the request fails.
         """
-        data = self.get_request("/groundStations")
-        return [GroundStation(**gs) for gs in data.get("GroundStation", [])]
+        raw = self.get_request("/groundStations")
+        payload = _unwrap(raw)
+        gs_list = payload.get("GroundStation", []) if isinstance(payload, dict) else []
+        return [GroundStation(**gs) for gs in gs_list]
 
     # ------------------------------------------------------------------
     # Location endpoints

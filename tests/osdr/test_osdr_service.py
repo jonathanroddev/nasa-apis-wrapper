@@ -169,17 +169,6 @@ class TestOSDRService:
         files = OSDRService().study_files("137").studies["OSD-137"].study_files
         assert files[1].date_updated == ""
 
-    @patch.object(BaseAPI, "get_request", return_value=MISSIONS_RESPONSE)
-    def test_missions_list(self, _) -> None:
-        result = OSDRService().missions()
-        assert result == ["STS-135", "SpaceX-4"]
-
-    @patch.object(BaseAPI, "get_request", return_value=MISSION_RESPONSE)
-    def test_mission_detail(self, _) -> None:
-        result = OSDRService().mission("STS-135")
-        assert result.identifier == "STS-135"
-        assert result.startDate == "2011-07-08"
-        assert result.aliases == ["Atlantis STS-135"]
 
 
 ASSAY_NAME = "OSD-48_transcription_profiling_RNA_Sequencing_Illumina"
