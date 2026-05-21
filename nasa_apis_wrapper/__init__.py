@@ -172,6 +172,21 @@ from .epic import (
     AttitudeQuaternions,
 )
 from .tle import TLEService, TLERecord, TLESearchParameters, TLESearchResponse
+from .earth import EarthService, EarthAsset, EarthAssetResource
+from .mars_rover import (
+    MarsRoverService,
+    MarsRover,
+    RoverCamera,
+    RoverInfo,
+    MarsRoverPhoto,
+    MarsRoverPhotosResponse,
+    MarsRoverLatestPhotosResponse,
+    RoverManifestPhoto,
+    RoverManifest,
+    RoverManifestResponse,
+    RoverSummary,
+    RoversResponse,
+)
 from .trek import (
     TrekService,
     TrekBody,
@@ -416,6 +431,21 @@ __all__ = [
     "TLERecord",
     "TLESearchParameters",
     "TLESearchResponse",
+    "EarthService",
+    "EarthAsset",
+    "EarthAssetResource",
+    "MarsRoverService",
+    "MarsRover",
+    "RoverCamera",
+    "RoverInfo",
+    "MarsRoverPhoto",
+    "MarsRoverPhotosResponse",
+    "MarsRoverLatestPhotosResponse",
+    "RoverManifestPhoto",
+    "RoverManifest",
+    "RoverManifestResponse",
+    "RoverSummary",
+    "RoversResponse",
     "TrekService",
     "TrekBody",
     "TrekTileFormat",
