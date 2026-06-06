@@ -47,7 +47,7 @@ class MediaData(BaseModel):
     media_type: MediaType
     date_created: datetime.datetime
     center: str
-    description: str
+    description: Optional[str] = None
     keywords: List[str] = []
     description_508: Optional[str] = None
     photographer: Optional[str] = None

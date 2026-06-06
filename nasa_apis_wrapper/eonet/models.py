@@ -1,7 +1,7 @@
 import datetime
 from typing import Any, List, Literal, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 # ---------------------------------------------------------------------------
@@ -199,9 +199,11 @@ class EONETLayer(BaseModel):
 
 class EONETLayerCategory(BaseModel):
     """A category with its associated imagery layers."""
-    id: str
-    title: str
-    layers: List[EONETLayer]
+    model_config = ConfigDict(extra="ignore")
+
+    id: Optional[Any] = None        # int in filtered response, str or None in full list
+    title: Optional[str] = None
+    layers: List[EONETLayer] = []
 
 
 class EONETLayersResponse(BaseModel):

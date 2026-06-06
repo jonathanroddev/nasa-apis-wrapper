@@ -122,8 +122,8 @@ NHATS_RESPONSE = {
             "size": None,
             "size_sigma": None,
             "occ": "0",
-            "min_dv": {"dv": "4.81", "dur": "450"},
-            "min_dur": {"dv": "5.23", "dur": "365"},
+            "min_dv": {"dv": "4.81", "dur": 450},
+            "min_dur": {"dv": "5.23", "dur": 365},
             "n_via_traj": 248,
             "obs_start": "2015-04-25",
             "obs_end": "2016-06-30",
@@ -343,7 +343,7 @@ class TestCNEOSService:
         obj = result[0]
         assert obj.des == "2015 JD3"
         assert obj.min_dv.dv == "4.81"
-        assert obj.min_dur.dur == "365"
+        assert obj.min_dur.dur == 365
         assert obj.size is None
 
     # ------------------------------------------------------------------

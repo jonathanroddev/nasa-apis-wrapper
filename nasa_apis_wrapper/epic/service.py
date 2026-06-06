@@ -1,5 +1,5 @@
 import datetime
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from nasa_apis_wrapper.base import BaseAPI
 from .models import (
@@ -33,7 +33,7 @@ class EPICService(BaseAPI):
     def images(
         self,
         collection: EPICCollection = "natural",
-        date: Optional[datetime.date] = None,
+        date: Optional[Union[datetime.date, str]] = None,
     ) -> List[EPICImage]:
         """
         Retrieve EPIC images for a given collection and date.
@@ -52,7 +52,8 @@ class EPICService(BaseAPI):
         """
         endpoint = f"/{collection}"
         if date:
-            endpoint += f"/date/{date.strftime('%Y-%m-%d')}"
+            date_str = date.strftime('%Y-%m-%d') if hasattr(date, 'strftime') else str(date)
+            endpoint += f"/date/{date_str}"
         return self._parse_list(endpoint, EPICImage)
 
     # ------------------------------------------------------------------

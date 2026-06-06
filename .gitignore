@@ -163,3 +163,4 @@ local.py
 *~
 pytest-cache-files-dvdpibc0
 .vscode/settings.json
+smoke_test.py

@@ -166,8 +166,8 @@ class ScoutSummaryItem(BaseModel):
 
 class NHATSTrajSummary(BaseModel):
     """Minimum delta-V or minimum duration trajectory summary."""
-    dv: str
-    dur: str
+    dv: str     # delta-V in km/s
+    dur: int    # mission duration in days
 
 
 class NHATSSummaryItem(BaseModel):
@@ -182,11 +182,17 @@ class NHATSSummaryItem(BaseModel):
     n_via_traj: int
     min_dv: NHATSTrajSummary
     min_dur: NHATSTrajSummary
-    obs_start: str
-    obs_end: str
-    min_size: str
-    max_size: str
-    size: Optional[str] = None
+    obs_start: Optional[str] = None
+    obs_end: Optional[str] = None
+    obs_mag: Optional[str] = None
+    obs_flag: Optional[str] = None
+    radar_obs_a: Optional[str] = None
+    radar_obs_g: Optional[str] = None
+    radar_snr_a: Optional[str] = None
+    radar_snr_g: Optional[str] = None
+    min_size: Optional[str] = None
+    max_size: Optional[str] = None
+    size: Optional[Any] = None      # float/int or None
 
 
 # ---------------------------------------------------------------------------
@@ -364,9 +370,15 @@ class SBSatellitesResponse(BaseModel):
 # ---------------------------------------------------------------------------
 
 class MDesignAccessibleRequest(BaseModel):
-    """Query parameters for SB Mission Design — Mode A (accessible NEOs)."""
+    """Query parameters for SB Mission Design — Mode A (accessible NEOs).
+
+    A target object must be specified via ``des``, ``spk``, or ``sstr``.
+    """
     model_config = ConfigDict(populate_by_name=True)
 
+    des: Optional[str] = None           # primary designation
+    spk: Optional[int] = None           # SPK-ID
+    sstr: Optional[str] = None          # search string
     lim: Optional[int] = None
     crit: Optional[int] = None         # 1–6, optimality criterion
     year: Optional[int] = None
