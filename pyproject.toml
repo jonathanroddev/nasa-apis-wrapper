@@ -13,9 +13,6 @@ dependencies = [
     "requests>=2.32",
 ]
 
-[project.scripts]
-local = "local:main"
-
 [dependency-groups]
 dev = [
     "devtools>=0.12.2",

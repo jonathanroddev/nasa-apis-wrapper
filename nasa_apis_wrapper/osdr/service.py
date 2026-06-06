@@ -213,9 +213,15 @@ class RadLabService(BaseAPI):
         params = {"format": "json"}
         if request:
             params.update(request.model_dump(by_alias=True, exclude_none=True))
-            params.pop("format", None)
             params["format"] = "json"
-        rows = self.get_request("/radlab/api", params=params)
+        raw = self.get_request("/radlab/api", params=params)
+        if isinstance(raw, dict) and "columns" in raw and "data" in raw:
+            columns = raw["columns"]
+            rows = [dict(zip(columns, row)) for row in raw["data"]]
+        elif isinstance(raw, list):
+            rows = raw
+        else:
+            rows = []
         return [RadLabMeasurement(**row) for row in rows]
 
 

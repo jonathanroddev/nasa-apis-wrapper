@@ -112,26 +112,14 @@ MISSION_RESPONSE = {
     "parents": {},
 }
 
-RADLAB_RESPONSE = [
-    {
-        "celestial_body": "Earth",
-        "trajectory": "ISS",
-        "spacecraft": "ISS",
-        "module": "Columbus",
-        "instrument_family": "DOSTEL",
-        "instrument": "DOSTEL-1",
-        "instrument_id": "DOSTEL1_Columbus",
-        "timestamp": "2020-01-01T00:00:00Z",
-        "absorbed_dose_rate": 5.42,
-        "dose_equivalent_rate": 12.3,
-        "flux": None,
-        "latitude": 51.6,
-        "longitude": -122.4,
-        "altitude": 408.0,
-        "B": None,
-        "L": None,
-    }
-]
+RADLAB_RESPONSE = {
+    "columns": ["timestamp", "instrument_id", "instrument"],
+    "index": [0, 1],
+    "data": [
+        ["2020-01-01T00:00:00Z", "TEPC-SMP327-pre", "TEPC"],
+        ["2020-01-02T00:00:00Z", "DOSTEL1_Columbus", "DOSTEL-1"],
+    ],
+}
 
 
 class TestOSDRService:
@@ -259,12 +247,12 @@ class TestRadLabService:
 
     @patch.object(BaseAPI, "get_request", return_value=RADLAB_RESPONSE)
     def test_measurements(self, _) -> None:
-        result = RadLabService().measurements(RadLabRequest(spacecraft="ISS"))
-        assert len(result) == 1
-        assert result[0].spacecraft == "ISS"
-        assert result[0].absorbed_dose_rate == 5.42
-        assert result[0].flux is None
-        assert result[0].altitude == 408.0
+        result = RadLabService().measurements(RadLabRequest(instrument="TEPC"))
+        assert len(result) == 2
+        assert result[0].timestamp == "2020-01-01T00:00:00Z"
+        assert result[0].instrument_id == "TEPC-SMP327-pre"
+        assert result[0].instrument == "TEPC"
+        assert result[0].spacecraft is None
 
     @patch.object(BaseAPI, "get_request", return_value=RADLAB_RESPONSE)
     def test_measurements_no_request(self, _) -> None:

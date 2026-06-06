@@ -205,25 +205,26 @@ class RadLabMeasurement(BaseModel):
     """
     A single radiation measurement from the RadLab database.
 
-    Readings come from instruments aboard spacecraft such as the ISS, Matroshka
-    phantom, and various satellites. All measurement fields are optional because
-    not every instrument records every quantity.
+    The API returns a pandas split-format JSON (columns/index/data). The
+    available columns vary by query — only timestamp is guaranteed.
     """
 
-    celestial_body: str
-    trajectory: str
-    spacecraft: str
-    module: str
-    instrument_family: str
-    instrument: str
-    instrument_id: str
-    timestamp: str                              # ISO 8601
+    model_config = ConfigDict(extra="ignore")
+
+    timestamp: str                               # ISO 8601
+    instrument_id: Optional[str] = None
+    instrument: Optional[str] = None
+    instrument_family: Optional[str] = None
+    spacecraft: Optional[str] = None
+    module: Optional[str] = None
+    trajectory: Optional[str] = None
+    celestial_body: Optional[str] = None
 
     absorbed_dose_rate: Optional[float] = None  # μGy/hour
     dose_equivalent_rate: Optional[float] = None  # μSv/hour
-    flux: Optional[float] = None                # cm⁻²sr⁻¹s⁻¹
-    latitude: Optional[float] = None            # degrees
-    longitude: Optional[float] = None           # degrees
-    altitude: Optional[float] = None            # km
-    B: Optional[float] = None                   # nanoTesla
-    L: Optional[float] = None                   # McIlwain L-value
+    flux: Optional[float] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    altitude: Optional[float] = None
+    B: Optional[float] = None
+    L: Optional[float] = None
