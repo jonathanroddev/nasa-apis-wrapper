@@ -1,5 +1,9 @@
 # nasa-apis-wrapper
 
+[![PyPI version](https://img.shields.io/pypi/v/nasa-apis-wrapper)](https://pypi.org/project/nasa-apis-wrapper/)
+[![Python](https://img.shields.io/pypi/pyversions/nasa-apis-wrapper)](https://pypi.org/project/nasa-apis-wrapper/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 > **Disclaimer:** This is an unofficial, community-maintained Python wrapper. It is not affiliated with, endorsed by, or in any way connected to NASA.
 
 A typed Python wrapper for [NASA's public APIs](https://api.nasa.gov/), built on **Pydantic v2** and **requests**. Every response is a validated model with IDE autocompletion — no raw dicts.
