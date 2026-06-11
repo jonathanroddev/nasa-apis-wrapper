@@ -14,3 +14,8 @@ Notes:
 """
 
 from .api import BaseAPI, NasaAPIException
+
+__all__ = [
+    "BaseAPI",
+    "NasaAPIException",
+]

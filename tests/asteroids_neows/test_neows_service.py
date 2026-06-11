@@ -1,4 +1,3 @@
-import json
 from unittest.mock import patch
 
 import pytest
@@ -64,17 +63,15 @@ class TestNeoWsService:
     @patch.object(
         BaseAPI,
         "get_request",
-        return_value=json.dumps(
-            {
-                "links": {"next": "next", "previous": "previous", "self": "self"},
-                "element_count": 94,
-                "near_earth_objects": {
-                    "2022-03-27": [
-                        generate_near_earth_object_item(),
-                    ]
-                },
-            }
-        ),
+        return_value={
+            "links": {"next": "next", "previous": "previous", "self": "self"},
+            "element_count": 94,
+            "near_earth_objects": {
+                "2022-03-27": [
+                    generate_near_earth_object_item(),
+                ]
+            },
+        },
     )
     def test_feed(self, get_request) -> None:
         neows_service: NeoWsService = NeoWsService("api_key")
@@ -84,27 +81,25 @@ class TestNeoWsService:
     @patch.object(
         BaseAPI,
         "get_request",
-        return_value=json.dumps(
-            {
-                "links": {"next": "next", "previous": "previous", "self": "self"},
-                "element_count": 94,
-                "near_earth_objects": {
-                    "wrong_key": [
-                        generate_near_earth_object_item(),
-                    ]
-                },
-            }
-        ),
+        return_value={
+            "links": {"next": "next", "previous": "previous", "self": "self"},
+            "element_count": 94,
+            "near_earth_objects": {
+                "wrong_key": [
+                    generate_near_earth_object_item(),
+                ]
+            },
+        },
     )
     def test_feed_should_raise_value_error(self, get_request) -> None:
         neows_service: NeoWsService = NeoWsService("api_key")
         with pytest.raises(ValueError):
-            result = neows_service.feed()
+            neows_service.feed()
 
     @patch.object(
         BaseAPI,
         "get_request",
-        return_value=json.dumps(generate_near_earth_object_item()),
+        return_value=generate_near_earth_object_item(),
     )
     def test_lookup(self, get_request) -> None:
         neows_service: NeoWsService = NeoWsService("api_key")
@@ -114,25 +109,23 @@ class TestNeoWsService:
     @patch.object(
         BaseAPI,
         "get_request",
-        return_value=json.dumps(generate_near_earth_object_item(bad_format=True)),
+        return_value=generate_near_earth_object_item(bad_format=True),
     )
     def test_lookup_should_raise_value_error(self, get_request) -> None:
         neows_service: NeoWsService = NeoWsService("api_key")
         with pytest.raises(ValueError):
-            result = neows_service.lookup("1")
+            neows_service.lookup("1")
 
     @patch.object(
         BaseAPI,
         "get_request",
-        return_value=json.dumps(
-            {
-                "links": {"next": "next", "previous": "previous", "self": "self"},
-                "page": {"size": 1, "total_elements": 1, "total_pages": 1, "number": 1},
-                "near_earth_objects": [
-                    generate_near_earth_object_item(),
-                ],
-            }
-        ),
+        return_value={
+            "links": {"next": "next", "previous": "previous", "self": "self"},
+            "page": {"size": 1, "total_elements": 1, "total_pages": 1, "number": 1},
+            "near_earth_objects": [
+                generate_near_earth_object_item(),
+            ],
+        },
     )
     def test_browse(self, get_request) -> None:
         neows_service: NeoWsService = NeoWsService("api_key")

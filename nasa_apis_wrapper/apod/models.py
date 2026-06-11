@@ -22,6 +22,8 @@ class APOD(BaseModel):
         explanation (str): A brief explanation of the APOD image.
         hdurl (Optional[str]): The URL of the high-definition version of the APOD image.
         media_type (str): The type of media (e.g., image, video) for the APOD.
+        service_version (Optional[str]): The version of the APOD service that provided the data.
+        title (str): The title of the APOD image.
         url (str): The URL of the APOD image.
     """
 
@@ -30,6 +32,9 @@ class APOD(BaseModel):
     explanation: str
     hdurl: Optional[str] = None
     media_type: str
+    service_version: Optional[str] = None
+    thumbnail_url: Optional[str] = None  # present when media_type="video" and thumbs=True
+    title: str
     url: str
 
 

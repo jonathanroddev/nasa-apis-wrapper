@@ -1,105 +1,64 @@
-"""
-Module for Asteroids - NeoWs service.
-
-This module contains the NeoWsService class, which provides
-    methods for retrieving Near Earth Object Web Service data.
-
-Classes:
-    NeoWsService: Provides methods for retrieving Near Earth Object Web Service data.
-"""
-
-import json
 from typing import Optional, Union
 
 from nasa_apis_wrapper.base import BaseAPI
 from .models import NeoFeed, NeoFeedRequest, NearEarthObjectItem, NeoBrowse, Pagination
-from ..utils import Utils
+from ..utils import obj_dict
 
 
 class NeoWsService(BaseAPI):
+    """Service for the Near Earth Object Web Service (NeoWs) API."""
+
     endpoint_prefix: str = "/neo/rest/v1"
-    """
-    Provides methods for retrieving Near Earth Object Web Service data.
-
-    Attributes:
-        endpoint_prefix (str): The prefix for the Near Earth Object Web Service API endpoints.
-
-    Methods:
-        feed(neo_feed_request: Optional[NeoFeedRequest] = None):
-            Retrieves the feed of near-Earth objects.
-        lookup(asteroid_id: Union[str, int]):
-            Retrieves information about a specific near-Earth object.
-
-    Notes:
-        This class provides a basic implementation for interacting with
-            the Near Earth Object Web Service API.
-    """
 
     def feed(self, neo_feed_request: Optional[NeoFeedRequest] = None) -> NeoFeed:
         """
-        Retrieves the feed of near-Earth objects.
+        Retrieve asteroids based on their closest approach date to Earth.
 
         Args:
-            neo_feed_request (Optional[NeoFeedRequest]): The request object for the feed.
-                If not provided, the default request is used.
+            neo_feed_request: Optional date range (defaults to the next 7 days).
 
         Returns:
-            NeoFeed: The feed of near-Earth objects.
+            NeoFeed with a collection of near-Earth objects grouped by date.
 
-        Notes:
-            This method sends a GET request to the Near Earth Object Web Service API
-                to retrieve the feed of near-Earth objects.
-            The feed is filtered by the closest approach date to Earth.
+        Raises:
+            NasaAPIException: If the API request fails.
         """
-        endpoint: str = f"{self.endpoint_prefix}/feed"
-        req = self.get_request(
-            endpoint,
-            params=Utils.obj_dict(neo_feed_request) if neo_feed_request else None,
+        return self._parse_one(
+            f"{self.endpoint_prefix}/feed",
+            NeoFeed,
+            params=obj_dict(neo_feed_request) if neo_feed_request else None,
         )
-        response: dict = json.loads(req)
-        return NeoFeed(**response)
 
     def lookup(self, asteroid_id: Union[str, int]) -> NearEarthObjectItem:
         """
-        Retrieves information about a specific near-Earth object.
+        Retrieve a single asteroid by its NASA JPL ID.
 
         Args:
-            asteroid_id (str or int): The ID of the asteroid to retrieve information for.
+            asteroid_id: The asteroid's NASA JPL small body ID.
 
         Returns:
-            dict: A dictionary containing information about the asteroid.
+            NearEarthObjectItem with full details for the requested asteroid.
 
         Raises:
-            ValueError: If the asteroid ID is invalid or not found.
-
-        Notes:
-            The asteroid ID can be either a string or an integer. If the ID is not found,
-                a ValueError is raised.
+            NasaAPIException: If the asteroid is not found or the request fails.
         """
-        endpoint: str = f"{self.endpoint_prefix}/neo/{asteroid_id}"
-        req = self.get_request(endpoint)
-        response: dict = json.loads(req)
-        return NearEarthObjectItem(**response)
+        return self._parse_one(f"{self.endpoint_prefix}/neo/{asteroid_id}", NearEarthObjectItem)
 
-    def browse(self, pagination: Pagination = None) -> NeoBrowse:
+    def browse(self, pagination: Optional[Pagination] = None) -> NeoBrowse:
         """
-        Retrieves the browse results of near-Earth objects.
+        Browse the overall asteroid dataset.
 
         Args:
-            pagination (Optional[Pagination]): The pagination object.
-                If not provided, the default pagination is used.
+            pagination: Optional page and size parameters.
 
         Returns:
-            NeoBrowse: The browse results of near-Earth objects.
+            NeoBrowse with a paginated list of near-Earth objects.
 
-        Notes:
-            This method sends a GET request to the
-                Near Earth Object Web Service API to retrieve the browse results.
-            The results are paginated based on the provided pagination object.
+        Raises:
+            NasaAPIException: If the API request fails.
         """
-        endpoint: str = f"{self.endpoint_prefix}/neo/browse"
-        req = self.get_request(
-            endpoint, params=Utils.obj_dict(pagination) if pagination else None
+        return self._parse_one(
+            f"{self.endpoint_prefix}/neo/browse",
+            NeoBrowse,
+            params=obj_dict(pagination) if pagination else None,
         )
-        response: dict = json.loads(req)
-        return NeoBrowse(**response)
